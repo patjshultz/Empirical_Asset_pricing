@@ -7,6 +7,7 @@ theme_set(theme_bw())
 #######################
 # load data from CRSP #
 #######################
+
 return_data <- read.csv("../data/returns.csv", stringsAsFactors = F)
 return_data$date <- as.Date(as.character(return_data$date), format =  "%Y%m%d")
 return_data$month <- as.numeric(as.factor(months(return_data$date)))
@@ -16,6 +17,9 @@ inflation_tbills_data$date <- as.Date(as.character(inflation_tbills_data$date), 
 
 return_data$month <- as.numeric(format(return_data$date,"%m"))
 inflation_tbills_data$month <- as.numeric(format(inflation_tbills_data$date,"%m"))
+
+inflation_tbills_data_annual <- read.csv("../data/inflation_tbill_annual.csv", stringsAsFactors = F)
+inflation_tbills_data_annual$date <- as.Date(as.character(inflation_tbills_data_annual$date), format =  "%Y%m%d")
 
 #############################################
 # recursively calculate prices and dividends#
@@ -87,10 +91,11 @@ inflation_tbills_data$inflation_annual <- NA
 for (i in 12:nrow(inflation_tbills_data)) {
   # calculate annual dividends and returns
   if (inflation_tbills_data$month[i] == 12) {
-    inflation_tbills_data$tbill_annual[i] <- prod(1 + inflation_tbills_data$t30ret[(i - 11):i])-1
+    inflation_tbills_data$tbill_annual[i] <- prod(1 + inflation_tbills_data$t90ret[(i - 11):i])-1
     inflation_tbills_data$inflation_annual[i] <- prod(1 + inflation_tbills_data$cpiret[(i - 11):i])-1
   } 
 }
+
 
 ###################################################
 # estimate AR1 process to get expeceted inflation #
@@ -108,7 +113,7 @@ for(i in 2:nrow(inflation_tbills_data)){
   inflation_tbills_data$exp_inflation_quarterly[i] <- intercept + ar_coef * prev_pi 
 }
 
-inflation_tbills_data$real_rf <- inflation_tbills_data$t30ret - inflation_tbills_data$exp_inflation_quarterly
+inflation_tbills_data$real_rf <- inflation_tbills_data$t90ret - inflation_tbills_data$exp_inflation_quarterly
 
 #########################
 # Plots and export data #
@@ -120,7 +125,7 @@ merged_data <- merge(return_data, inflation_tbills_data, by = "date")
 # subset to a quarterly dataset 
 quarterly_data <- merged_data[which(merged_data$month.x %in% c(3, 6, 9, 12)), ]
 save_vars <- c("date", "prices", "vwretd_quarterly", "vwretx_quarterly", 
-               "dividends_quarterly", "smoothed_dividends", "t30ret", "cpiret",
+               "dividends_quarterly", "smoothed_dividends", "t90ret", "cpiret",
                "exp_inflation_quarterly", "real_rf")
 quarterly_data <- quarterly_data[, which(colnames(quarterly_data) %in% save_vars)]
 
@@ -130,12 +135,12 @@ dividends_smoothed_plot <- ggplot(data = na.omit(quarterly_data), aes(x = date, 
   geom_line(color = "blue", size = 2)
 inflation_quarterly_plot <- ggplot(data = na.omit(quarterly_data), aes(x = date, y = cpiret))+
   geom_line(color = "blue", size = 2)
-tbill_quarterly_plot <- ggplot(data = na.omit(quarterly_data), aes(x = date, y = t30ret))+
+tbill_quarterly_plot <- ggplot(data = na.omit(quarterly_data), aes(x = date, y = t90ret))+
   geom_line(color = "blue", size = 2)
 exp_inf_quarterly_plot <- ggplot(data = na.omit(quarterly_data), aes(x = date, y = exp_inflation_quarterly))+
   geom_line(color = "blue", size = 2)
 real_rf_plot <- ggplot(data = na.omit(quarterly_data), aes(x = date, y = real_rf))+
-  geom_line(color = "blue", size = 2)
+  geom_line(color = "blue", size = 1)
 
 # subset to an annual dataset 
 annual_data <- merged_data[which(merged_data$month.x == 12), ]
@@ -147,6 +152,8 @@ annual_pd_ratio <- ggplot(data = na.omit(annual_data), aes(x = date, y = prices/
   geom_line(color = "blue", size = 2)
 annual_inflation_plot <- ggplot(data = na.omit(annual_data), aes(x = date, y = inflation_annual))+
   geom_line(color = "blue", size = 2)
+annual_real_rf <- ggplot(data = na.omit(annual_data), aes(x = date, y = inflation_annual))+
+  geom_line(color = "blue", size = 2)
 
-write.csv(annual_data, "../data/Q6_data_annual.csv", row.names = F)
-write.csv(quarterly_data, "../data/Q6_data_quarterly.csv", row.names = F)
+write.csv(annual_data, "../data/data_annual.csv", row.names = F)
+write.csv(quarterly_data, "../data/data_quarterly.csv", row.names = F)

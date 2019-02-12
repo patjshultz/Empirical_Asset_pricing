@@ -4,31 +4,28 @@ library(astsa)
 library(vars)
 
 # Load data
-data <- read.csv("../data/CRSP_dataset_merged.csv", stringsAsFactors = F)
-data$date <- as.Date(data$date, date = "%Y/%m/%d")
+stock_data <- read.csv("../data/data_quarterly.csv", stringsAsFactors = F)
+stock_data$date <- as.Date(stock_data$date, date = "%Y/%m/%d")
+n <- nrow(stock_data)
 
-# subset to annual data
-data_annual <- data[which(month(as.POSIXlt(data$date,
-                                           format="%d/%m/%Y")) == 12), ]
+# calculate log pd ratios
+stock_data$log_div_price_ratio <- log(stock_data$smoothed_dividends/stock_data$prices)
+stock_data$div_growth <- c(rep(NA, 4), log(stock_data$dividends_quarterly[5:n]) - log(stock_data$dividends_quarterly[1:(n-4)]))
 
-# construct dividend growth 
-d <- data_annual$dividends_annual[1:(nrow(data_annual)-1)]
-dp <- data_annual$dividends_annual[2:nrow(data_annual)]
-data_annual$dividend_growth_annual <- c(NA, log(dp/d))
+ggplot(data = stock_data, aes(x = date, y = log_div_price_ratio))+
+     geom_line(color = "blue", size = 2) +
+     geom_hline(yintercept = -3.6)
 
-# replicate plot from lecture slides
-ggplot(data = data_annual, aes(x = date, y = log(1/data_annual$pd_ratio_annual)))+
-  geom_line(color = "#00AFBB", size = 2) +
-  geom_hline(yintercept = -3.6)
+ggplot(data = stock_data, aes(x = date, y = div_growth))+
+  geom_line(color = "blue", size = 2) 
 
+# specify VAR variables
+X <- data.frame(dp = stock_data$log_div_price_ratio, 
+                dgr = stock_data$div_growth, 
+                rf = stock_data$t30ret)
+X <- X[-c(1:5), ] # drop observations with NAs
 
-X <- data.frame(dp = log(1/data_annual$pd_ratio_annual), 
-                dgr = data_annual$dividend_growth_annual, 
-                rf = data_annual$tbill_annualized)
-X <- X[-c(1, 2), ] # drop observations with NAs
-
-
+head(X)
 # create data and run VAR(1)
-x = cbind(cmort, tempr, part)
 out <- VAR(X, p = 1, type = 'both')
-coeftest(out, vcov. = sandwich)
+stargazer::stargazer(round(coeftest(out, vcov. = sandwich), 3))
