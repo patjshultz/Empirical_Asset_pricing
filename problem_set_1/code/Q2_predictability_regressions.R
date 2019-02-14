@@ -1,47 +1,93 @@
+####################################
+# Question 2: Return predictability#
+####################################
 rm(list = ls())
-library(sandwich)
-# load data
-data <- read.csv("../data/CRSP_dataset_merged.csv", stringsAsFactors = F)
-data$date <- as.Date(data$date, date = "%Y/%m/%d")
+library(ggplot2) # for plotting
+library(sandwich) # for standard errors
+library(zoo)
+theme_set(theme_bw(base_size = 18))
 
-# subset to annual data
-data_annual <- data[which(month(as.POSIXlt(data$date,
-                                           format="%d/%m/%Y")) == 12), ]
-data_annual <- data_annual[which(data_annual$date < as.Date("2006-01-01")), ]
-prices <- matrix(data_annual$prices)
-dividends <- matrix(data_annual$dividends_annual)
-dp_ratio <- 1/data_annual$pd_ratio_annual
-tbill <- matrix(data_annual$tbill_annualized)
+######################
+# load / format data #
+######################
+stock_data <- read.csv("../data/data_annual.csv")
+stock_data$date <- as.Date(stock_data$date, format = "%Y-%m-%d")
 
-# calculate returns
-calc_returns <- function(prices = prices, dividends = dividends, reference_rate = tbill, horizon){
+#subset to match the Dog that did not bark 
+#stock_data <- stock_data[which(stock_data$date<as.Date("2007-01-01")), ]
+
+###########################################################
+# calculate regression data (log returns, dividend yield) #
+###########################################################
+cum_div_log_return <- log(stock_data$vwretd + 1)
+ex_div_log_return <- log(stock_data$vwretx + 1)
+log_real_rf <- log(stock_data$real_rf + 1)
+
+div_yield <- log(stock_data$dividends/stock_data$prices)
+
+# check price dividend ratio
+ggplot(data = stock_data, aes(x = date, y = log(dividends/prices)))+
+  geom_line(color = "blue", size = 2) + 
+  labs(x = "", y = "log(D/P)")
+
+
+# specify return horizons in year
+horizons <- c(1:5, 10)
+
+# set up matrices to store regression summary statistics
+stats <- c("b", "t(b)", "r2")
+summary_mat_returns <- matrix(data = NA, nrow = length(horizons), ncol = length(stats)) 
+rownames(summary_mat_returns) <- horizons; colnames(summary_mat_returns) <- stats
+
+########################################
+# run equation by equation regressions #
+########################################
+row<-1
+for(h in horizons){
   
-  # first specify relevant variables
-  prices_k <- prices[(horizon+1):length(prices), ]  
-  dividends_k <- dividends[(horizon+1):length(dividends), ] 
-  prices_t <- prices[1:(length(prices)-horizon), ]
-  tbill <- reference_rate[(horizon+1):length(reference_rate), ]  
+  # calculate future returns
+  returns <- matrix(data = NA, nrow = length(cum_div_log_return), ncol = 1)
+  for(i in 1 :(length(cum_div_log_return)-h)){
+    returns[i, 1] <- sum(cum_div_log_return[(i+1):(i+h)])
+  }
   
-  # calculate returns
-  R_tk <- ((prices_k + dividends_k) / prices_t) - 1 
-  return(R_tk - tbill)
-}
-
-summary_mat <- matrix(data = NA, nrow = 6, ncol = 3)
-return_horizons <- c(1:5, 10)
-row <- 1
-for(h in return_horizons){
-  # select data
-  R_tk <- calc_returns(prices, dividends, tbill ,h)
-  dp <- dp_ratio[1:(length(dp_ratio)-h)]
+   # run regressions for forecasting returns
+  fit <- lm(returns ~ div_yield)
+  coefficients <- lmtest::coeftest(fit, vcov. = sandwich)
+  summary_mat_returns[row, 1] <- coefficients["div_yield", "Estimate"]
+  summary_mat_returns[row, 2] <- coefficients["div_yield", "t value"]
+  summary_mat_returns[row, 3] <- summary(fit)$r.squared
   
-  # run regressions
-  coefficients <- coeftest(lm(R_tk ~ dp), vcov. = sandwich)
-  summary_mat[row, 1] <- coefficients["dp", "Estimate"]
-  summary_mat[row, 2] <- coefficients["dp", "t value"]
-  summary_mat[row, 3] <- summary(lm(R_tk ~ dp))$r.squared
-
   row <- row + 1
 }
 
-summary_mat  
+
+######################
+# Figures and Tables #
+######################
+
+
+stargazer::stargazer(summary_mat_returns, colnames = T, 
+                     rownames = T, title = "Return Regressions")
+stargazer::stargazer(summary_mat_dividends, colnames = T, 
+                     rownames = T, title = "Dividend Growth Regressions")
+
+stock_data$dividend_yield <- div_yield
+dyield_plot <- ggplot(data = stock_data, aes(x = date, y = dividend_yield))+
+  geom_line(color = "blue", size = 2) + 
+  labs(x = "", y = "Log(D/P)")
+
+return_plot <- ggplot(data = stock_data, aes(x = date, y = ex_div_log_return))+
+  geom_line(color = "blue", size = 2) + 
+  labs(x = "", y = "Ex div return (quarterly)")
+
+div_plot <- ggplot(data = stock_data, aes(x = date, y = smoothed_dividends))+
+  geom_line(color = "blue", size = 2) + 
+  labs(x = "", y = "Dividends (quarterly)")
+
+grid.arrange(
+  dyield_plot, return_plot, div_plot,
+  layout_matrix = rbind(c(1, 1) ,
+                        c(2, 3))
+)
+
