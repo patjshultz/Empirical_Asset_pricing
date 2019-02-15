@@ -6,7 +6,7 @@
 rm(list = ls())
 library(gridExtra)
 library(ggplot2)
-theme_set(theme_bw())
+theme_set(theme_bw(base_size = 18))
 
 #######################
 # load data from CRSP #
@@ -47,6 +47,10 @@ prices_all_plot <- ggplot(data = na.omit(return_data), aes(x = date, y = prices)
 dividend_all_plot <- ggplot(data = na.omit(return_data), aes(x = date, y = dividends))+
   geom_line(color = "blue", size = 2)
 
+# calculate dividend growth 
+return_data$div_growth <- c(NA, log(return_data$dividends[2:length(return_data$dividends)]) - log(return_data$dividends[1:(length(return_data$dividends)-1)]))
+# claculate dividend yield
+return_data$div_yield <- log(return_data$dividends / return_data$prices)
 
 ###################################################
 # estimate AR1 process to get expeceted inflation #
@@ -60,13 +64,12 @@ ar1 <- summary(lm(pi_t~ pi_lag))
 intercept <- ar1$coefficients["(Intercept)", "Estimate"]
 ar_coef <- ar1$coefficients["pi_lag", "Estimate"]
 
-inflation_tbills_data_annual$exp_inflation_quarterly <- NA
+inflation_tbills_data_annual$exp_inflation <- NA
 for(i in 2:nrow(inflation_tbills_data_annual)){
   prev_pi <- inflation_tbills_data_annual$cpiret[(i-1)]
-  inflation_tbills_data_annual$exp_inflation_quarterly[i] <- intercept + ar_coef * prev_pi 
+  inflation_tbills_data_annual$exp_inflation[i] <- intercept + ar_coef * prev_pi 
 }
-
-inflation_tbills_data_annual$real_rf <- inflation_tbills_data_annual$t90ret - inflation_tbills_data_annual$exp_inflation_quarterly
+inflation_tbills_data_annual$real_rf <- inflation_tbills_data_annual$t90ret - inflation_tbills_data_annual$exp_inflation
 
 
 #########################
@@ -76,8 +79,8 @@ inflation_tbills_data_annual$real_rf <- inflation_tbills_data_annual$t90ret - in
 merged_data <- merge(return_data, inflation_tbills_data, by = "date")
 
 annual_data <- merge(return_data, inflation_tbills_data_annual, by = "date")
-save_vars <- c("date", "prices", "vwretd", "vwretx", "dividends","b1ret",
-               "t90ret", "cpiret", "real_rf")
+save_vars <- c("date", "prices", "vwretd", "vwretx", "dividends","div_growth","b1ret",
+               "t90ret", "cpiret", "real_rf", "div_yield")
 annual_data <- annual_data[, which(colnames(annual_data) %in% save_vars)]
 
 
@@ -85,14 +88,21 @@ prices_plot <- ggplot(data = na.omit(annual_data), aes(x = date, y = prices))+
   geom_line(color = "blue", size = 2)
 dividends_plot <- ggplot(data = na.omit(annual_data), aes(x = date, y = dividends))+
   geom_line(color = "blue", size = 2)
-annual_pd_ratio <- ggplot(data = na.omit(annual_data), aes(x = date, y = prices/dividends))+
+annual_pd_ratio <- ggplot(data = annual_data, aes(x = date, y = prices/dividends))+
   geom_line(color = "blue", size = 2)
-annual_inflation_plot <- ggplot(data = na.omit(annual_data), aes(x = date, y = cpiret))+
+annual_inflation_plot <- ggplot(data = annual_data, aes(x = date, y = cpiret))+
   geom_line(color = "blue", size = 2)
-annual_real_rf <- ggplot(data = na.omit(annual_data), aes(x = date, y = real_rf))+
+annual_real_rf <- ggplot(data = annual_data, aes(x = date, y = real_rf))+
   geom_line(color = "blue", size = 1.5)
-annual_inflation_plot <- ggplot(data = na.omit(annual_data), aes(x = date, y = cpiret))+
-  geom_line(color = "blue", size = 2)
+
+ggplot(data = annual_data, aes(x = date, y = t90ret))+
+  geom_line(color = "blue", size = 1.5)
+
+ggplot(data = inflation_tbills_data_annual, aes(x = date, y = exp_inflation))+
+  geom_line(color = "blue", size = 1.5)
+
+ggplot(data = inflation_tbills_data_annual, aes(x = date, y = t90ret - exp_inflation))+
+  geom_line(color = "blue", size = 1.5)
 
 
 write.csv(annual_data, "../data/data_annual.csv", row.names = F)

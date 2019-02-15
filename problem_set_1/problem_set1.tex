@@ -47,19 +47,25 @@
 \begin{document}
 
 \begin{figure}
-	\includegraphics[width=\linewidth]{log_dividend_yield.png}
+	\centering
+	\includegraphics[scale = 0.5]{log_dividend_yield.png}
 	\caption{Dividend yield (sum of past years worth of dividends divided by current portfolio price)}
 	\label{fig:div_yield}
 \end{figure}
-We run two regressions separately of the form
+\section{Problem 6}
+\paragraph{a)} 
+We first run two regressions separately of the form
 \begin{equation*}
 	\begin{split}
 	r_{t, t+\tau} & = \alpha_r + \beta_{r, \tau}(d_t - p_t) + \epsilon^r_{t+\tau}\\
 	\Delta d_{t, t+\tau} & = \alpha_{\Delta_d}+\beta_{\Delta d, \tau}(d_t - p_t)+ \epsilon^dp_{t+\tau}\\
 	\end{split}
 \end{equation*}
-the results of which are shown in the tables below
-
+the results of which are shown in Table (\ref{table:div_yield_regressions}). The results suggest all variation in market price-dividend ratios corresponds to changes in expected variation in risk premiums and none about news to future dividend growth.\footnote{ Recall, we can decompose the log price dividend ratio, denoted as $z_t$ here, as
+\begin{equation*}
+	Var(z_t) = \sum_{j=0}^{\infty}\kappa^j_1\left[Cov(g_{t+1+j}, z_t)- Cov(r_{t+1+j}, z_t)\right]
+\end{equation*}
+Thus, if both returns and dividends are unforecastable, the price divdend ratio should be constant, which it clearly is not in Figure \ref{fig:div_yield}. We cannot ask "are returns forecastable?", rather we must ask "which of dividend growth or returns are forecastable?" A null hypothesis that specifies returns are not forecastable must also that dividend growth is forecastable. That is we need to test the joint distribution of return and dividend-growth forecastability. }
 
 \begin{table}[!htbp] \centering 
 	\label{} 
@@ -68,9 +74,9 @@ the results of which are shown in the tables below
 		\hline \\[-1.8ex] 
 		 $\tau$ & b & t(b) & r2 \\ 
 		\hline \\[-1.8ex] 
-		4 & $0.076$ & $2.541$ & $0.026$ \\ 
-		12 & $0.209$ & $5.938$ & $0.073$ \\ 
-		20 & $0.336$ & $9.144$ & $0.129$ \\  
+		1 & $0.078$ & $1.611$ & $0.029$ \\ 
+		3 & $0.211$ & $3.050$ & $0.092$ \\ 
+		5 & $0.329$ & $5.056$ & $0.173$ \\ 
 		\hline \\[-1.8ex] 
 
 	\end{tabular} 
@@ -80,88 +86,59 @@ the results of which are shown in the tables below
 		\hline \\[-1.8ex] 
 		$\tau$ & b & t(b) & r2 \\ 
 		\hline \\[-1.8ex] 
-		4 & -$0.093$ &-$6.614$ & $0.165$ \\ 
-		12 & -$0.229$ & -$6.956$ & $0.197$ \\ 
-		20 & -$0.364$ & -$8.757$ & $0.250$ \\  
+	1 & $0.005$ & $0.135$ & $0.0003$ \\ 
+	3 & $-0.012$ & $-0.201$ & $0.001$ \\ 
+	5 & $-0.005$ & $-0.072$ & $0.0001$ \\   
 		\hline \\[-1.8ex] 
 	\end{tabular} 
-			\caption{Return Regressions (left panel) and dividend growth regressions (right panel)} 
+	\caption{Direct return regressions (left panel) and dividend growth regressions (right panel)} 
+	\label{table:div_yield_regressions}
 \end{table} 
-We can infer how much of the variation in the price dividend ratio is due to variation in cash flows and how much is due to variation in future returns through the following decomposition. First, we can use the discount rate regression to calculate
+
+
+
+Next, we calculate the implied regression coefficients from our VAR and the Campbell Shiller linearization of a return
 \begin{equation*}
-	r_{t+1} - E_t r_{t+1} = \epsilon_{t+1}
-\end{equation*}
-Then calculate discount rate news as
-\begin{equation*}
-	N_{DR, t+1} = \sum_{j=0}^{\infty} \kappa^j\beta_{r, j}^j\epsilon_{t+1}
-\end{equation*}
-since this regression implies $E_t r_{t+\tau} = \alpha + \beta^\tau(d_t-p_t)$. The cash flow news would then be
-\begin{equation*}
-	N_{CF, t+1} = r_{t+1} - E_t r_{t+1} + N_{DR, t+1}
+	r_{t+1} \approx \rho + \kappa(p_{t+1} - d_{t+1}) + (d_{t+1}-d_t) - (p_t - d_t)
 \end{equation*}
 
-\begin{table}[!htbp] \centering 
-	\caption{} 
-	\label{} 
-	\begin{tabular}{@{\extracolsep{5pt}}lc} 
-		\\[-1.8ex]\hline 
-		\hline \\[-1.8ex] 
-		& \multicolumn{1}{c}{\textit{Dependent variable:}} \\ 
-		\cline{2-2} 
-		\\[-1.8ex] &   \\ 
-		\hline \\[-1.8ex] 
-		dp:(Intercept) & $-$0.204$^{**}$ \\ 
-		& (0.084) \\ 
-		& \\ 
-		dp:dp.l1 & 0.931$^{***}$ \\ 
-		& (0.026) \\ 
-		& \\ 
-		dp:dgr.l1 & 0.157$^{*}$ \\ 
-		& (0.081) \\ 
-		& \\ 
-		dp:rf.l1 & 0.990 \\ 
-		& (0.763) \\ 
-		& \\ 
-		dp:trend & 0.000$^{***}$ \\ 
-		& (0.000) \\ 
-		& \\ 
-		dgr:(Intercept) & $-$0.222$^{***}$ \\ 
-		& (0.081) \\ 
-		& \\ 
-		dgr:dp.l1 & $-$0.079$^{***}$ \\ 
-		& (0.027) \\ 
-		& \\ 
-		dgr:dgr.l1 & 0.575$^{***}$ \\ 
-		& (0.090) \\ 
-		& \\ 
-		dgr:rf.l1 & 0.913 \\ 
-		& (0.727) \\ 
-		& \\ 
-		dgr:trend & 0.000$^{*}$ \\ 
-		& (0.000) \\ 
-		& \\ 
-		rf:(Intercept) & 0.000 \\ 
-		& (0.001) \\ 
-		& \\ 
-		rf:dp.l1 & 0.000 \\ 
-		& (0.000) \\ 
-		& \\ 
-		rf:dgr.l1 & 0.001$^{**}$ \\ 
-		& (0.000) \\ 
-		& \\ 
-		rf:rf.l1 & 0.976$^{***}$ \\ 
-		& (0.018) \\ 
-		& \\ 
-		rf:trend & 0.000 \\ 
-		& (0.000) \\ 
-		& \\ 
-		\hline \\[-1.8ex] 
-		\hline 
-		\hline \\[-1.8ex] 
-		\textit{Note:}  & \multicolumn{1}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
-	\end{tabular} 
-\end{table}
+The implied coefficient on returns is given by
+\begin{equation*}
+	\beta_{r, \tau} = \frac{Cov(r_{t, t+\tau} - \tau \bar{r}, e_{1}'X_t)}{Var(e_{1}'X_t)}
+\end{equation*}
+We can solve for $r_{t+k} - \bar{r}$ as follows
+\begin{equation}
+\begin{split}
+	r_{t+k} &= [-\kappa\quad 1 \quad 0] \left(X_{t+k} \right) + e_1 (X_{t+k-1}-\bar{X})\\
+	&= [-\kappa\quad 1 \quad 0] \left(A(X_{t+k-1}) + \epsilon_{t+k} \right) + e_1 (X_{t+k-1})\\
+	& = ([-\kappa\quad 1 \quad 0]A + e_1) X_{t+k-1} + [-\kappa\quad 1 \quad 0]\epsilon_{t+k}\\
+	& = [-\kappa\quad 1 \quad 0] A^k X_t  + \sum_{j = 0}^{k-1}[-\kappa\quad 1 \quad 0] A^j\epsilon_{t+k-j} +[-\kappa\quad 1 \quad 0]\epsilon_{t+k} \\
+\end{split}
+\label{eq:VAR_implied_r}
+\end{equation}
+where the last equality holds by backwards iteration and using our VAR. Thus, $r_{t, t+\tau} - \tau \bar{r}$ is given by 
+\begin{equation*}
+\begin{split}
+	r_{t, t+\tau}- \tau \bar{r} &= \sum_{k=1}^{\tau}(r_{t+k}-\bar{r}) \\
+&= \sum_{k=1}^{\tau}\bigg([-\kappa\quad 1 \quad 0] A^k(X_t ) + \sum_{j = 0}^{k-1}[-\kappa\quad 1 \quad 0] A^j\epsilon_{t+k-j}\bigg)\\
+\end{split}
+\end{equation*}
+ Using equation (\ref{eq:VAR_implied_r}), we can solve for our coefficient of interest. 
 
+\begin{equation*}
+	\begin{split}
+     \beta_{r, \tau} &= \frac{Cov(r_{t, t+\tau} - \tau \bar{r}, e_{1}'X)}{Var(e_{1}'X)}\\
+     &= \frac{Cov(\sum_{k=1}^{\tau}[-\kappa\quad 1 \quad 0] A^k(X_t ), e_{1}'X)}{Var(e_{1}'X)}\\
+	\end{split}
+\end{equation*}
+Similarly, our coefficient for dividend growth is given by
+\begin{equation*}
+	\begin{split}
+		\beta_{\Delta d, \tau} &= \frac{Cov(\Delta d_{t + \tau}, e_{1}'X)}{Var(e_{1}'X)}\\
+		& = \frac{Cov(e_2' A^\tau X, e_{1}'X)}{Var(e_{1}'X)}\\
+	\end{split}
+\end{equation*}
+where the equality holds, because dividend growth over $\tau$ periods implied by the VAR will just be $e_2' A^\tau X$. 
 \end{document}
 
 

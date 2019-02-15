@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.9.4)  12 FEB 2019 12:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.9.4)  14 FEB 2019 21:00
 entering extended mode
 **./problem_set1.tex
 (problem_set1.tex
@@ -232,11 +232,7 @@ Package caption Info: listings package is loaded.
 LaTeX Warning: Unused global option(s):
     [letter].
 
-(problem_set1.aux
-
-LaTeX Warning: Label `' multiply defined.
-
-)
+(problem_set1.aux)
 \openout1 = `problem_set1.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
@@ -333,9 +329,9 @@ Package caption Info: End \AtBeginDocument code.
 File: log_dividend_yield.png Graphic file (type png)
 
 <use log_dividend_yield.png>
-Package pdftex.def Info: log_dividend_yield.png used on input line 50.
-(pdftex.def)             Requested size: 469.75502pt x 337.88374pt.
-LaTeX Font Info:    Try loading font information for U+msa on input line 55.
+Package pdftex.def Info: log_dividend_yield.png used on input line 51.
+(pdftex.def)             Requested size: 345.91649pt x 248.80392pt.
+LaTeX Font Info:    Try loading font information for U+msa on input line 58.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -343,7 +339,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ("C:\Program Files\MiKTeX 2.9\tex\latex\microtype\mt-msa.cfg"
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 55.
+LaTeX Font Info:    Try loading font information for U+msb on input line 58.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -352,35 +348,34 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) [1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
 
- <./log_dividend_yield.png>]
-
-LaTeX Warning: Float too large for page by 92.25204pt on input line 163.
-
-[2] [3] (problem_set1.aux)
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
+ <./log_dividend_yield.png>] [2]
+(problem_set1.aux) ) 
 Here is how much of TeX's memory you used:
- 6537 strings out of 493323
- 100844 string characters out of 3139067
- 205223 words of memory out of 3000000
- 9986 multiletter control sequences out of 15000+200000
- 9003 words of font info for 38 fonts, out of 3000000 for 9000
+ 6580 strings out of 493323
+ 101427 string characters out of 3139067
+ 208221 words of memory out of 3000000
+ 10013 multiletter control sequences out of 15000+200000
+ 11850 words of font info for 53 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,15n,42p,291b,329s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Pr
-ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Fi
-les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fon
-ts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/
-public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/ams
-fonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.p
-fb>
-Output written on problem_set1.pdf (3 pages, 103769 bytes).
+ 44i,19n,42p,541b,282s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
+/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.
+pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/
+Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><C:/Prog
+ram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program File
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts
+/type1/public/amsfonts/cm/cmmi9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsf
+onts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
+r8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:
+/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program
+ Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files/Mi
+KTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/
+fonts/type1/public/amsfonts/cm/cmsy9.pfb>
+Output written on problem_set1.pdf (2 pages, 173761 bytes).
 PDF statistics:
- 50 PDF objects out of 1000 (max. 8388607)
+ 75 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 5126 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 7174 words of extra memory for PDF output out of 10000 (max. 10000000)
 
