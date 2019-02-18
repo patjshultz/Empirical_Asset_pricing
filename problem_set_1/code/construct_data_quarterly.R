@@ -18,9 +18,6 @@ inflation_tbills_data$date <- as.Date(as.character(inflation_tbills_data$date), 
 return_data$month <- as.numeric(format(return_data$date,"%m"))
 inflation_tbills_data$month <- as.numeric(format(inflation_tbills_data$date,"%m"))
 
-inflation_tbills_data_annual <- read.csv("../data/inflation_tbill_annual.csv", stringsAsFactors = F)
-inflation_tbills_data_annual$date <- as.Date(as.character(inflation_tbills_data_annual$date), format =  "%Y%m%d")
-
 #############################################
 # recursively calculate prices and dividends#
 #############################################
@@ -86,38 +83,38 @@ for (i in 4:nrow(return_data)) {
 ###################################################
 
 # quarterly expected inflation
-pi_t <- inflation_tbills_data_annual$cpiret[2:nrow(inflation_tbills_data_annual)]
-pi_lag <- inflation_tbills_data_annual$cpiret[1:(nrow(inflation_tbills_data_annual)-1)] 
+pi_t <- inflation_tbills_data$cpiret[2:nrow(inflation_tbills_data)]
+pi_lag <- inflation_tbills_data$cpiret[1:(nrow(inflation_tbills_data)-1)] 
 
 ar1 <- summary(lm(pi_t~ pi_lag))
 intercept <- ar1$coefficients["(Intercept)", "Estimate"]
 ar_coef <- ar1$coefficients["pi_lag", "Estimate"]
 
-inflation_tbills_data_annual$exp_inflation_quarterly <- NA
-for(i in 2:nrow(inflation_tbills_data_annual)){
-  prev_pi <- inflation_tbills_data_annual$cpiret[(i-1)]
-  inflation_tbills_data_annual$exp_inflation_quarterly[i] <- intercept + ar_coef * prev_pi 
+inflation_tbills_data$exp_inflation_quarterly <- NA
+for(i in 2:nrow(inflation_tbills_data)){
+  prev_pi <- inflation_tbills_data$cpiret[(i-1)]
+  inflation_tbills_data$exp_inflation_quarterly[i] <- intercept + ar_coef * prev_pi 
 }
 
-inflation_tbills_data_annual$real_rf <- inflation_tbills_data_annual$t90ret - inflation_tbills_data_annual$exp_inflation_quarterly
+inflation_tbills_data$real_rf <- inflation_tbills_data$t90ret - inflation_tbills_data$exp_inflation_quarterly
 
 # annual expected inflation
-pi_t <- inflation_tbills_data_annual$cpiret[2:nrow(inflation_tbills_data_annual)]
-pi_lag <- inflation_tbills_data_annual$cpiret[1:(nrow(inflation_tbills_data_annual)-1)] 
+pi_t <- inflation_tbills_data$cpiret[2:nrow(inflation_tbills_data)]
+pi_lag <- inflation_tbills_data$cpiret[1:(nrow(inflation_tbills_data)-1)] 
 
 ar1 <- summary(lm(pi_t~ pi_lag))
 intercept <- ar1$coefficients["(Intercept)", "Estimate"]
 ar_coef <- ar1$coefficients["pi_lag", "Estimate"]
 
-inflation_tbills_data_annual$exp_inflation_quarterly <- NA
-for(i in 2:nrow(inflation_tbills_data_annual)){
-  prev_pi <- inflation_tbills_data_annual$cpiret[(i-1)]
-  inflation_tbills_data_annual$exp_inflation_quarterly[i] <- intercept + ar_coef * prev_pi 
+inflation_tbills_data$exp_inflation_quarterly <- NA
+for(i in 2:nrow(inflation_tbills_data)){
+  prev_pi <- inflation_tbills_data$cpiret[(i-1)]
+  inflation_tbills_data$exp_inflation_quarterly[i] <- intercept + ar_coef * prev_pi 
 }
 
-inflation_tbills_data_annual$real_rf <- inflation_tbills_data_annual$t90ret - inflation_tbills_data_annual$exp_inflation_quarterly
+inflation_tbills_data$real_rf <- inflation_tbills_data$t90ret - inflation_tbills_data$exp_inflation_quarterly
 
-
+plot(inflation_tbills_data$real_rf, type = "o")
 #########################
 # Plots and export data #
 #########################
@@ -145,21 +142,5 @@ exp_inf_quarterly_plot <- ggplot(data = na.omit(quarterly_data), aes(x = date, y
 real_rf_plot <- ggplot(data = na.omit(quarterly_data), aes(x = date, y = real_rf))+
   geom_line(color = "blue", size = 1)
 
-# subset to an annual dataset 
-annual_data <- merge(return_data, inflation_tbills_data_annual, by = "date")
-save_vars <- c("date", "prices", "vwretd_annual", "vwretx_annual", "dividends_annual","b1ret",
-               "t90ret", "cpiret", "real_rf")
-annual_data <- annual_data[, which(colnames(annual_data) %in% save_vars)]
 
-annual_pd_ratio <- ggplot(data = na.omit(annual_data), aes(x = date, y = prices/dividends_annual))+
-  geom_line(color = "blue", size = 2)
-annual_inflation_plot <- ggplot(data = na.omit(annual_data), aes(x = date, y = cpiret))+
-  geom_line(color = "blue", size = 2)
-annual_real_rf <- ggplot(data = na.omit(annual_data), aes(x = date, y = real_rf))+
-  geom_line(color = "blue", size = 2)
-annual_inflation_plot <- ggplot(data = na.omit(annual_data), aes(x = date, y = cpiret))+
-  geom_line(color = "blue", size = 2)
-
-
-write.csv(annual_data, "../data/data_annual.csv", row.names = F)
 write.csv(quarterly_data, "../data/data_quarterly.csv", row.names = F)

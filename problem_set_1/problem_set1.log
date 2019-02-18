@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.9.4)  14 FEB 2019 21:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.9.4)  18 FEB 2019 12:49
 entering extended mode
 **./problem_set1.tex
 (problem_set1.tex
@@ -232,7 +232,44 @@ Package caption Info: listings package is loaded.
 LaTeX Warning: Unused global option(s):
     [letter].
 
-(problem_set1.aux)
+(problem_set1.aux
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+)
 \openout1 = `problem_set1.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
@@ -324,14 +361,7 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
-
-<log_dividend_yield.png, id=1, 691.83469pt x 497.60907pt>
-File: log_dividend_yield.png Graphic file (type png)
-
-<use log_dividend_yield.png>
-Package pdftex.def Info: log_dividend_yield.png used on input line 51.
-(pdftex.def)             Requested size: 345.91649pt x 248.80392pt.
-LaTeX Font Info:    Try loading font information for U+msa on input line 58.
+LaTeX Font Info:    Try loading font information for U+msa on input line 55.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -339,43 +369,202 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ("C:\Program Files\MiKTeX 2.9\tex\latex\microtype\mt-msa.cfg"
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 58.
+LaTeX Font Info:    Try loading font information for U+msb on input line 55.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\microtype\mt-msb.cfg"
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-) [1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
+)
+<quarterly_div_growth.png, id=1, 705.38531pt x 519.44063pt>
+File: quarterly_div_growth.png Graphic file (type png)
 
- <./log_dividend_yield.png>] [2]
-(problem_set1.aux) ) 
+<use quarterly_div_growth.png>
+Package pdftex.def Info: quarterly_div_growth.png used on input line 82.
+(pdftex.def)             Requested size: 282.14912pt x 207.77257pt.
+
+<annual_dividend_growth.png, id=2, 624.83438pt x 444.15938pt>
+File: annual_dividend_growth.png Graphic file (type png)
+
+<use annual_dividend_growth.png>
+Package pdftex.def Info: annual_dividend_growth.png used on input line 89.
+(pdftex.def)             Requested size: 249.92932pt x 177.6606pt.
+
+<div_yield_plot.png, id=3, 705.38531pt x 519.44063pt>
+File: div_yield_plot.png Graphic file (type png)
+ <use div_yield_plot.png>
+Package pdftex.def Info: div_yield_plot.png used on input line 95.
+(pdftex.def)             Requested size: 282.14912pt x 207.77257pt.
+
+[1
+
+{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map} <./quarterly_div_growth.pn
+g>]
+Underfull \hbox (badness 10000) in paragraph at lines 100--101
+
+ []
+
+[2 <./annual_dividend_growth.png> <./div_yield_plot.png>] [3] [4] [5] [6]
+<CS_approx.png, id=35, 624.83438pt x 444.15938pt>
+File: CS_approx.png Graphic file (type png)
+ <use CS_approx.png>
+Package pdftex.def Info: CS_approx.png used on input line 399.
+(pdftex.def)             Requested size: 312.41643pt x 222.07913pt.
+
+<CS_error.png, id=36, 666.99188pt x 444.15938pt>
+File: CS_error.png Graphic file (type png)
+ <use CS_error.png>
+Package pdftex.def Info: CS_error.png used on input line 405.
+(pdftex.def)             Requested size: 333.49512pt x 222.07913pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 409--410
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 417--419
+
+ []
+
+[7 <./CS_approx.png>] [8 <./CS_error.png>] [9]
+Underfull \hbox (badness 10000) in paragraph at lines 482--483
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 503--504
+
+ []
+
+[10] [11]
+Underfull \hbox (badness 10000) in paragraph at lines 610--611
+
+ []
+
+[12]
+Underfull \hbox (badness 10000) in paragraph at lines 628--629
+
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 632.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 632.
+ [13]
+<irfs.png, id=76, 950.04938pt x 454.69875pt>
+File: irfs.png Graphic file (type png)
+ <use irfs.png>
+Package pdftex.def Info: irfs.png used on input line 642.
+(pdftex.def)             Requested size: 475.02353pt x 227.34882pt.
+
+Overfull \hbox (5.26851pt too wide) in paragraph at lines 642--643
+ [][] 
+ []
+
+<price_and_return_irfs.png, id=77, 666.99188pt x 444.15938pt>
+File: price_and_return_irfs.png Graphic file (type png)
+
+<use price_and_return_irfs.png>
+Package pdftex.def Info: price_and_return_irfs.png used on input line 649.
+(pdftex.def)             Requested size: 333.49512pt x 222.07913pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 654--655
+
+ []
+
+[14 <./irfs.png> <./price_and_return_irfs.png>] [15]
+Underfull \hbox (badness 10000) in paragraph at lines 742--748
+
+ []
+
+<restircted_var_shock.png, id=87, 750.55406pt x 517.18219pt>
+File: restircted_var_shock.png Graphic file (type png)
+
+<use restircted_var_shock.png>
+Package pdftex.def Info: restircted_var_shock.png used on input line 770.
+(pdftex.def)             Requested size: 375.27611pt x 258.59045pt.
+ [16 <./restircted_var_shock.png>]
+<boot_VAR_coef.pdf, id=92, 505.89pt x 505.89pt>
+File: boot_VAR_coef.pdf Graphic file (type pdf)
+ <use boot_VAR_coef.pdf>
+Package pdftex.def Info: boot_VAR_coef.pdf used on input line 800.
+(pdftex.def)             Requested size: 252.94437pt x 252.94437pt.
+
+<news_decomposition.png, id=93, 750.55406pt x 517.18219pt>
+File: news_decomposition.png Graphic file (type png)
+
+<use news_decomposition.png>
+Package pdftex.def Info: news_decomposition.png used on input line 820.
+(pdftex.def)             Requested size: 375.27611pt x 258.59045pt.
+
+<news_decomp_qrtly.png, id=94, 750.55406pt x 517.18219pt>
+File: news_decomp_qrtly.png Graphic file (type png)
+
+<use news_decomp_qrtly.png>
+Package pdftex.def Info: news_decomp_qrtly.png used on input line 821.
+(pdftex.def)             Requested size: 375.27611pt x 258.59045pt.
+ [17 <./boot_VAR_coef.pdf>]
+Overfull \vbox (37.94395pt too high) has occurred while \output is active []
+
+
+[18 <./news_decomposition.png> <./news_decomp_qrtly.png>]
+<return_decomposition_returns.png, id=109, 750.55406pt x 517.18219pt>
+File: return_decomposition_returns.png Graphic file (type png)
+
+<use return_decomposition_returns.png>
+Package pdftex.def Info: return_decomposition_returns.png used on input line 85
+4.
+(pdftex.def)             Requested size: 375.27611pt x 258.59045pt.
+
+<rolling_forecast.png, id=110, 666.23906pt x 442.65375pt>
+File: rolling_forecast.png Graphic file (type png)
+
+<use rolling_forecast.png>
+Package pdftex.def Info: rolling_forecast.png used on input line 863.
+(pdftex.def)             Requested size: 333.11871pt x 221.32632pt.
+ [19 <./return_decomposition_returns.png>] [20 <./rolling_forecast.png>] (probl
+em_set1.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 6580 strings out of 493323
- 101427 string characters out of 3139067
- 208221 words of memory out of 3000000
- 10013 multiletter control sequences out of 15000+200000
- 11850 words of font info for 53 fonts, out of 3000000 for 9000
+ 6756 strings out of 493323
+ 104372 string characters out of 3139067
+ 218397 words of memory out of 3000000
+ 10111 multiletter control sequences out of 15000+200000
+ 16149 words of font info for 89 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,19n,42p,541b,282s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.
-pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/
-Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><C:/Prog
-ram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program File
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX 
-2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmmi9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsf
-onts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
-r8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:
-/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program
- Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files/Mi
-KTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/
-fonts/type1/public/amsfonts/cm/cmsy9.pfb>
-Output written on problem_set1.pdf (2 pages, 173761 bytes).
+ 44i,19n,42p,629b,333s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmbsy6.pfb><
+C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmbsy8.pfb><C:/
+Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program 
+Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/Mi
+KTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx6.pfb><C:/Program Files/MiKTeX 2.9/
+fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cmextra/cmex9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/
+public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/c
+m/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi9.p
+fb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/
+Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmmib6.pfb><C:/Pro
+gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb><C:/Progra
+m Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/
+fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmr9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmsy6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.
+pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/P
+rogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program F
+iles/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on problem_set1.pdf (20 pages, 442987 bytes).
 PDF statistics:
- 75 PDF objects out of 1000 (max. 8388607)
+ 194 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 7174 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 10306 words of extra memory for PDF output out of 12000 (max. 10000000)
 

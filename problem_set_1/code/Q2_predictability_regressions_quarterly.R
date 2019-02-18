@@ -10,7 +10,7 @@ theme_set(theme_bw(base_size = 18))
 ######################
 # load / format data #
 ######################
-stock_data <- read.csv("../data/data_annual.csv")
+stock_data <- read.csv("../data/data_quarterly.csv")
 stock_data$date <- as.Date(stock_data$date, format = "%Y-%m-%d")
 
 
@@ -41,7 +41,7 @@ for(h in horizons){
     returns[i, 1] <- sum(cum_div_log_return[(i+1):(i+h)])
   }
   
-   # run regressions for forecasting returns
+  # run regressions for forecasting returns
   fit <- lm(returns ~ div_yield)
   coefficients <- lmtest::coeftest(fit, vcov. = sandwich)
   summary_mat_returns[row, 1] <- coefficients["div_yield", "Estimate"]
@@ -183,7 +183,7 @@ log_real_rf <- log(sub_sample_1973_today$real_rf + 1)
 div_yield <- log(sub_sample_1973_today$dividends/sub_sample_1973_today$prices)
 
 # specify return horizons in year
-horizons <- c(1:5, 10)
+horizons <- c(4, 8, 12, 16, 20, 40)
 
 # set up matrices to store regression summary statistics
 stats <- c("b", "t(b)", "r2")

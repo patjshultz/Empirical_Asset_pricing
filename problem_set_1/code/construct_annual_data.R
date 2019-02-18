@@ -42,6 +42,7 @@ for(i in 2:nrow(return_data)){
   return_data$dividends[i] <- return_data$prices[i-1] * (return_data$vwretd[i] - return_data$vwretx[i])
 }
 
+
 prices_all_plot <- ggplot(data = na.omit(return_data), aes(x = date, y = prices))+
   geom_line(color = "blue", size = 2)
 dividend_all_plot <- ggplot(data = na.omit(return_data), aes(x = date, y = dividends))+
@@ -49,7 +50,7 @@ dividend_all_plot <- ggplot(data = na.omit(return_data), aes(x = date, y = divid
 
 # calculate dividend growth 
 return_data$div_growth <- c(NA, log(return_data$dividends[2:length(return_data$dividends)]) - log(return_data$dividends[1:(length(return_data$dividends)-1)]))
-# claculate dividend yield
+# calculate dividend yield
 return_data$div_yield <- log(return_data$dividends / return_data$prices)
 
 ###################################################
