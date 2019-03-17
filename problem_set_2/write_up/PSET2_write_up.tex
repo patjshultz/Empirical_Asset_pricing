@@ -129,7 +129,7 @@ We can follow the same the process to calculate the parameters for sample (a) an
 %-------------------------------------------------------------------------------
 
 
-\paragraph{a)}Markov Chains
+\paragraph{a) Markov Chains}
 \begin{enumerate}[I.]
 	\item Compute the conditional moments of the Markov chain which describes the evolution of the  $\lambda$ process.\\
 	
@@ -202,6 +202,72 @@ We can follow the same the process to calculate the parameters for sample (a) an
 	\end{equation*}
 	Thus, we have verified that the unconditional mean and standard deviation are $\mu$ and $\sigma$, respectively. 
 \end{enumerate}
+
+
+%-------------------------------------------------------------------------------
+% Term Structure of Interest Rates 
+%-------------------------------------------------------------------------------
+
+\paragraph{b) The Term Structure of Interest Rates:} In this economy, like other real economies, an $n$ period bond is a sure claim to a single unit of risk free consumption $n$ periods hence. 
+
+\begin{enumerate}[I.]
+	\item Use the agent's first order condition to compute the price $b^1_i$ and the return $R^1_i$, on a one-period bond in each state $i$. Choose $\beta$ to produce a mean real interest rate of $5$ percent (i.e. $R = 1.05$). \\
+	
+	Let $i$ denote a state in $\Omega$ (the set of all states) and $q_t(i)$ denote the time $t$ price of an Arrow-Debreu security that pays off in state $i\in\Omega$. Then $b_i^1$ at time $t$ is given by 
+	\begin{equation*}
+		b_i^1 = \sum_{i\in\Omega}q_t(i) = \sum_{i\in\Omega}\pi_t(i)\beta \frac{u'(c_{t+1})}{u'(c_t)} = \beta E_t\left[\frac{u'(c_{t+1})}{u'(c_t)}\right] = \beta E \left[(c_{t+1}/c_t)^{-\alpha}\right] = \beta E\left[\lambda_{t+1}^{-\alpha}\right]
+	\end{equation*}
+	where $\lambda_{t+1}$ is the growth rate in consumption from time $t$ to $t+1$. We can use our Markov chain to compute this expectation, so our general expression for the one period bond price in state $i$ is 
+	\begin{equation}
+	\begin{split}
+		b^1_i = \beta \sum_{j=1}^{N}\pi_{ij}\lambda_j^{-\alpha}
+	\end{split}
+	\label{eq:bond_price}
+	\end{equation}
+	Thus, when $i = 1$ (the high state), we have the following bond price
+	\begin{equation*}
+	\begin{split}
+			b^1_1 &= \beta \sum_{j=1}^{N}\pi_{1j}\lambda_j^{-\alpha}\\
+			&=\beta \left(\pi_{11}\lambda_1^{-\alpha} + \pi_{12}\lambda_2^{-\alpha}\right)\\
+			&=\beta \left(\phi\lambda_1^{-\alpha} + (1-\phi)\lambda_2^{-\alpha}\right)\\
+			&= \beta \left(\frac{1+\rho}{2}(\mu+\sigma)^{-\alpha} + \frac{1-\rho}{2}(\mu-\sigma)^{-\alpha}\right)\\
+	\end{split}
+	\end{equation*}
+	Similarly, when $i=2$ (the low state), we have the following bond price 
+		\begin{equation*}
+	\begin{split}
+	b^1_2 &= \beta \sum_{j=1}^{N}\pi_{2j}\lambda_j^{-\alpha}\\
+	&=\beta \left(\pi_{21}\lambda_1^{-\alpha} + \pi_{22}\lambda_2^{-\alpha}\right)\\
+	&= \beta \left(\frac{1-\rho}{2}(\mu+\sigma)^{-\alpha} + \frac{1+\rho}{2}(\mu-\sigma)^{-\alpha}\right)\\
+	\end{split}
+	\end{equation*}
+	For a one period bond we define the return as $R^1_i = 1/b^1_i$
+	\item Consider the \textit{risk neutral probability} defined by 
+	\begin{equation*}
+		p_{ij} = \frac{\pi_{ij}\beta \lambda_j^{-\alpha}}{b^1_i}
+	\end{equation*}
+	where $\pi_{ij}\equiv$the $i, j$ element of $\Pi$. Show that the $p$'s are legitimate probabilities. \\
+	
+	Substituting in Equation \ref{eq:bond_price}, the risk neutral probabilities are given by 
+	\begin{equation*}
+	\begin{split}
+		p_{ij} &= \frac{\pi_{ij}\beta \lambda_j^{-\alpha}}{\beta \sum_{j=1}^{N}\pi_{ij}\lambda_j^{-\alpha}}\\
+		&=\frac{\pi_{ij} \lambda_j^{-\alpha}}{\sum_{j=1}^{N}\pi_{ij}\lambda_j^{-\alpha}}\\
+	\end{split}
+	\end{equation*}
+	Since $p_{ij}$ represents the probability of going from state $i$ to state $j$, and we must end up in a state in the next period, $\sum_j p_{ij} =1$ for these to be legitimate probabilities. 
+	\begin{equation*}
+		\sum_j p_{ij} = \sum_j\frac{\pi_{ij} \lambda_j^{-\alpha}}{\sum_{j}\pi_{ij}\lambda_j^{-\alpha}} = \frac{1}{\sum_{j}\pi_{ij}\lambda_j^{-\alpha}}\sum_j \pi_{ij} \lambda_j^{-\alpha} = 1
+	\end{equation*}
+	where the second equality holds, because once we have summed over all the $j$'s in the denominator, the term is only dependent on $i$. Noting that $p_{ij}$ is clearly less than one and positive (the numerator is the price of a state contingent claim, so it is positive by no arbitrage), so the risk neutral probabilities are in fact legitimate. \\
+	
+	Shoe that an asset with dividends $d_j$ in state $j$, one period hence has current value given by 
+	\begin{equation*}
+		q_i = b^1_i E_p\left[d\right]
+	\end{equation*}
+	where the expectation is taken with respect to the risk neutral probability measure. 
+\end{enumerate}
+
  
 
 

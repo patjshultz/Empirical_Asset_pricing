@@ -53,7 +53,6 @@ ggsave("../Write_up/connsumption_growth.png",g,  width = 10, height = 8)
 # first use the original Mehra and Prescott numbers 
 mean_MP <- 0.018; sd_MP <- 0.036; ac_MD <- -0.14
 
-lambda <- 
 
 # second, find mu, sigma, and rho for the following samples 
 sample_a <- cons_growth_data$total
@@ -68,3 +67,31 @@ rho_a <- corr()
 #===============================================================================
 # a) Markov chains
 #===============================================================================
+
+# specify parameters and transition matrix
+mu <- mean_MP + 1; sigma <- sd_MP; phi <- 0.43
+Pi <- matrix(data = c(phi, 1- phi, 1 - phi,  phi), nrow = 2)
+
+
+# iii. Solve for the unconditional means 
+iota <- matrix(data = 1, nrow = 2, ncol = 1)
+A <- rbind(diag(2) - Pi, t(iota))
+e3 <- matrix(data = c(0, 0, 1), nrow = 3, ncol = 1)
+
+Pi_star <- solve((t(A) %*% A)) %*% t(A) %*% e3
+
+#===============================================================================
+# b) Term Structure of Interest Rates
+#===============================================================================
+gamma <- 2
+beta <- 0.95
+
+# find beta the gives a real interest rate of 5 percent
+candidate_betas <- seq(0.95, 1.00, by = 0.00001)
+prices <- matrix(data = NA, nrow  = length(candidate_betas), ncol = 1)
+for(i in 1:length(candidate_betas)){
+ prices[i, 1] <- mean(get_bond_prices(Pi, mu , sigma , candidate_betas[i], 2))
+}
+
+beta <- candidate_betas[which.min(abs((1/prices-1)-0.05))]
+
