@@ -41,22 +41,14 @@ return_ols_stats <- function(y, model){
 
 }
 return_ols_residuals <- function(y){
-  # CAPM regression
-  x <- RX
-  fit <- summary(lm(y~x))  
-  
-  # estimates of alpha and beta (and t-state)
-  alpha <- fit$coefficients["(Intercept)", "Estimate"]
-  t_alpha <- fit$coefficients["(Intercept)", "t value"]
-  beta <- fit$coefficients["x", "Estimate"]
-  t_beta <- fit$coefficients["x", "t value"]
-  
-  # return residuals and estimates
-  estimates <- c(alpha, t_alpha, beta, t_beta)
-  return_list <- list(estimates, fit$residuals)
-  
-  names(return_list) <- c("estimates", "residuals")
-  return(return_list$residuals)
+  if(model == "CAPM"){
+    x <- RX
+    fit <- summary(lm(y~x))  
+    return(fit$residuals)
+  } else if (model == "FF3") {
+    fit <- summary(lm(y~ RX + SMB + HML))
+    return(fit$residuals)
+  }
 }
 
 GRS <- function(alphas, residuals){
@@ -67,6 +59,6 @@ GRS <- function(alphas, residuals){
   
   bias_adjustment <- (nobs/N) %*% ((nobs - N - L)/(nobs - L - 1))
   sum_square_alphas <- t(alphas) %*% solve(Sigma) %*% alphas
-  GRS <- bias_adjustment %*% (sum_square_alphas/(1 + mu_f %*% (1/Omega) %*% mu_f))
+  GRS <- bias_adjustment %*% (sum_square_alphas/(1 + mu_f %*% solve(Omega) %*% mu_f))
   return(GRS)
 }
