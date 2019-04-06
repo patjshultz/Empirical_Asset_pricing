@@ -94,13 +94,6 @@ Let $\lambda_1=\mu + \sigma$, and $\lambda_2 = \mu-\sigma$. In equilibrium $y_t 
 
 Download Non-durable and service consumption data from WRDS. Generate real-per capita consumption growth for two sample (a) one that starts at 1929, (b) one that starts at 1950. 
 
-\begin{figure}[!htb]
-	\centering
-	\includegraphics[width=0.75\textwidth]{connsumption_growth.png}
-	\label{fig:consumption_data}
-	\caption{Log Consumption and Consumption Growth (Gross). Vertical line represents starting point of sample (b)}
-\end{figure}
-
 Mehra and Prescott find $0.018$, $0.036$, and $-0.14$, are the mean, standard deviation and autocorrelation of continuous mean consumption growth in their sample, respectively. We can then calculate the parameters of the Markov process as follows:
 \begin{itemize}
 	\item \textbf{Persistence:} To compute the persistence of the process, consider the indicator function, denoted as  $\xi_t$, which is equal to $1$ in the high growth state and zero otherwise.  Given our transition matrix $\Pi$, we then have 
@@ -122,7 +115,6 @@ Mehra and Prescott find $0.018$, $0.036$, and $-0.14$, are the mean, standard de
 	\item \textbf{Standard Deviation:} Once again using the unconditional probability derived above, we have that the unconditional variance of the process is given by	$\sigma^2 = 0.5 \sigma^2 + 0.5\sigma^2$, which implies $\sigma = 0.036$. 
 \end{itemize}
 
-We can follow the same the process to calculate the parameters for sample (a) and sample (b). \\
 
 
 %-------------------------------------------------------------------------------
@@ -201,6 +193,8 @@ We can follow the same the process to calculate the parameters for sample (a) an
 		& = \sigma^2
 		\end{split}
 	\end{equation*}
+	
+	The first order autocorrelation is given by $2\phi -1 = 2((1+\rho)/2)-1 = \rho$. 
 	Thus, we have verified that the unconditional mean, standard deviation, and autocorrelation are $\mu$, $\sigma$, $\rho$,  respectively.
 \end{enumerate}
 
@@ -260,13 +254,13 @@ We can follow the same the process to calculate the parameters for sample (a) an
 			\hline \\[-1.8ex] 
 			& $\mu$ & $\sigma$ & $\rho$ & implied $\beta$ \\ 
 			\hline \\[-1.8ex] 
-			Mehra and Prescot & $1.018$ & $0.036$ & $-0.140$ & $0.983$ \\ 
+			Mehra and Prescott & $1.018$ & $0.036$ & $-0.140$ & $0.983$ \\ 
 			Full Sample & $1.019$ & $0.032$ & $0.405$ & $0.987$ \\ 
 			Post War & $1.019$ & $0.020$ & $0.320$ & $0.988$ \\ 
 			\hline \\[-1.8ex] 
 			\end{tabular} 
 	\end{table}
-Tables throughout the rest of this write up use the above parameterizations. 
+	Tables throughout the rest of this write up use the above parameterizations. 
 	\item Consider the \textit{risk neutral probability} defined by 
 	\begin{equation*}
 		p_{ij} = \frac{\pi_{ij}\beta \lambda_j^{-\alpha}}{b^1_i}
@@ -445,6 +439,13 @@ Thus, we get the following forward rates and risk premiums
  	\caption{Sensitivity of risk premium to $\alpha\in\left[0, 100\right]$ for our various samples.}
  	 	\label{fig:risk_premium_alpha}
  \end{figure}
+
+ \begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.75\textwidth]{risk_premium_alpha_2.png}
+	\caption{Sensitivity of risk premium to $\alpha\in\left[0, 100\right]$ for our various samples.}
+	\label{fig:risk_premium_alpha_2}
+\end{figure}
 We see a positive risk premium for the non Mehra-Prescott sample periods. Notably, these display a positive rather than negative autocorrelation. We can further investigate this by plotting the Mehra-Prescott parameter implied risk premium with $\alpha = 2$, but varying $\rho$. We see that we need a negative autocorrelation of consumption growth to get a positive risk premium, however we know that consumption growth has been positively autocorrelated. 
   \begin{figure}[!htb]
  	\centering
@@ -453,6 +454,14 @@ We see a positive risk premium for the non Mehra-Prescott sample periods. Notabl
  	\label{fig:risk_premium_rho}
  \end{figure}
 \end{enumerate}
+  \begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.75\textwidth]{risk_premium_rho_2.png}
+	\caption{Sensitivity of risk premium $\rho\in(-1, 1)$ for our various samples}
+	\label{fig:risk_premium_rho_2}
+\end{figure}
+
+
 \subsection*{c) Equity Premium}
 \begin{enumerate}[I]
 	\item A share of equity in this economy entitles the holder to the aggregate dividend in each period. Compute the equilibrium price dividend ration in state $i$. \\
@@ -570,15 +579,22 @@ We see a positive risk premium for the non Mehra-Prescott sample periods. Notabl
 	\item Use the stationary distribution for the Markov chain to compute the unconditional mean, standard deviation, and coefficient of first order autocorrelation for the excess returns on equity and the one period risk free interest rate. \\
 	
 	The long run mean of an arbitrary variable is defined as $E\left[x\right] = \sum_{i=1}^{2}\pi_i^*x_i$ and the variance is defined as $V(x) =  \sum_{i=1}^{2}\pi_i^*x_i^2 - (\sum_{i=1}^{2}\pi_i^*x_i)^2$, where $\pi_i^*$ denotes the probability from our long run distribution. Thus, for the excess returns we get the following
+	
 	\begin{equation*}
-	{\scriptsize
 	\begin{split}
 		E\left[R^x\right] &= 0.5 R^x(1) + 0.5 R^x(2)\\
 		&= \frac{0.5 \left(\beta  (\mu -\sigma ) (\mu +\sigma )
 			\left(-2 \left(\rho ^3+\rho \right) (\mu -\sigma
 			)^{\alpha } (\mu +\sigma )^{\alpha }+(\rho -1)^2
 			\rho  (\mu +\sigma )^{2 \alpha }+\rho  (\rho +1)^2
-			(\mu -\sigma )^{2 \alpha }\right)+2 (\mu -\sigma
+			(\mu -\sigma )^{2 \alpha }\right)+\right)}{\beta  \left((\rho +1) (\mu -\sigma
+			)^{\alpha }-(\rho -1) (\mu +\sigma )^{\alpha
+			}\right) \left((\mu +\sigma ) \left((\rho -1) (\mu
+			-\sigma )^{\alpha }+2 \beta  \rho  (\mu -\sigma
+			)\right)-(\rho +1) (\mu -\sigma ) (\mu +\sigma
+			)^{\alpha }\right)}\\
+			&+ \frac{0.5 \left(
+			2 (\mu -\sigma
 			)^{\alpha } \left((\mu -\sigma )^{\alpha }-(\mu
 			+\sigma )^{\alpha }\right) (\mu +\sigma )^{\alpha }
 			\left(-2 \mu  \rho +\rho ^2 \sigma +\sigma
@@ -602,7 +618,6 @@ We see a positive risk premium for the non Mehra-Prescott sample periods. Notabl
 			-\sigma )^{-\alpha }\right)}\\
 		V(R^x) &=  0.5 (R^x(1))^2 + 0.5 (R^x(2))^2 +  (0.5 R^x(1) + 0.5 R^x(2))^2\\
 	\end{split}
-}
 	\end{equation*}
    For the risk free rate, we get the following
    	\begin{equation*}
@@ -616,8 +631,14 @@ We see a positive risk premium for the non Mehra-Prescott sample periods. Notabl
 	   V(R^f) &=  0.5 (R^f(1))^2 + 0.5 (R^f(2))^2 +  (0.5 R^f(1) + 0.5 R^f(2))^2\\	
 	   \end{split}
    \end{equation*}
-   
-   		\begin{table}[!htbp] \centering 
+    To calculate the autocorrelation in state $i$ of a variable $X$, we need to compute 
+    \begin{equation*}
+    \begin{split}
+    E_i\left[(X_i-E\left[X\right]) (X_j-E\left[X\right])\right] &=\pi_{i1}\left[(X_i-E\left[X\right]) (X_1-E\left[X\right])\right] +  \pi_{i2} \left[(X_i-E\left[X\right]) (X_2-E\left[X\right])\right]\\ 
+    \end{split}
+    \end{equation*}
+    and then normalize this expression by the variance of the variable. The unconditional autocorrelation is then given by $\rho = \rho_1 \pi_1^* + \rho_2 \pi_2^*$
+   	\begin{table}[!htbp] \centering 
    	\caption{Unconditional mean, standard deviation, and autocorrelations of excess return and risk free rate} 
    	\label{tab:erp_and_rf_puzzle} 
    	\begin{tabular}{@{\extracolsep{5pt}} ccccccc} 
@@ -625,15 +646,64 @@ We see a positive risk premium for the non Mehra-Prescott sample periods. Notabl
    		\hline \\[-1.8ex] 
    		& $E\left[R^x\right]$ & $\sigma\left(R^x\right)$ &$\rho(R^x)$& $E\left[R^f\right]$ &  $\sigma\left(R^f\right)$ &$\rho(R^f)$  \\ 
    		\hline \\[-1.8ex] 
-   		Mehra Prescott & $0.013$ & $0.022$& & $0.087$ & $0.12$&\\ 
-   		Full Sample \\ 
-   		Post War Sample \\ 
+   		Mehra Prescott & $0.013$ & $0.022$& & $0.087$ & $0.11$&\\ 
+   		Full Sample& -0.03 & 0.045 & &0.05 & 0.05 \\ 
+   		Post War Sample& -0.01 & 0.022 & &0.05& 0.01\\ 
    		\hline \\[-1.8ex] 
    	\end{tabular} 
    \end{table} 
 \item The unconditional mean of the excess return on the US stock market over the last 100 years is about $6\%$ on annum. The unconditional mean of the risk free rate is close to zero. Inspecting Table \ref{tab:erp_and_rf_puzzle}, we see that the model implied equity risk premium is only $1.3\%$ and the risk free rate is $8.7\%$. Hence, we see both the equity risk premium puzzle (that the observed equity risk premium is much too high compared to the model) and the risk free rate puzzle (that the observed risk free rate is too low compared to the model). Additionally, we see that the model implied risk free rate is quite volatile, yet we observe fairly constant real risk free rates. \\
 \item Derive the standard deviation of the risk free rate, the market rate, and the price-consumption ratio. How do these quantities fare relative to their data counterparts\\
-
+For the standard deviation of the risk free rate, see Table 5. 
 Once again we use our unconditional distribution $\Pi^*$ to calculate the variance of an arbitrary variable as $\sum_{i=1}^{2}\pi_i^*x_i^2 - (\sum_{i=1}^{2}\pi_i^*x_i)^2$
+Using our previously derived expressions for $z$ and $R^e$, we get the following expressions for their variance
+\begin{equation*}
+	\resizebox{1.0\hsize}{!}{$
+	V(z) = \frac{\beta ^2 \left(-2 (\mu
+		-\sigma ) (\mu +\sigma
+		)^{\alpha +1}
+		\left(\left(\rho
+		^2-2\right) (\mu -\sigma
+		)^{\alpha }+4 \beta  \rho 
+		(\mu -\sigma )\right)-8
+		\beta  \rho  (\mu +\sigma
+		)^2 (\mu -\sigma )^{\alpha
+			+1}+\left(\rho ^2+2\right)
+		(\mu +\sigma )^2 (\mu
+		-\sigma )^{2 \alpha
+		}+\left(\rho ^2+2\right)
+		(\mu -\sigma )^2 (\mu
+		+\sigma )^{2 \alpha }+8
+		\beta ^2 \rho ^2 \left(\mu
+		^2-\sigma
+		^2\right)^2\right)}{\left((
+		\mu +\sigma )^{\alpha }
+		\left(2 (\mu -\sigma
+		)^{\alpha }-\beta  (\rho
+		+1) (\mu -\sigma
+		)\right)+\beta  (\mu
+		+\sigma ) \left(2 \beta 
+		\rho  (\mu -\sigma )-(\rho
+		+1) (\mu -\sigma )^{\alpha
+		}\right)\right)^2}$
+	}
+\end{equation*}
+and $V(R^e)$ is given by an extremely long expression.  
+
+Plugging in our price consumption ratio and market rate to this formula, we get the following table 
+		\begin{table}[!htbp] \centering 
+	\caption{Standard deviation of market rate and price consumption ratio} 
+	\begin{tabular}{@{\extracolsep{5pt}} ccccccc} 
+		\\[-1.8ex]\hline 
+		\hline \\[-1.8ex] 
+		& $\sigma(z)$ & $\sigma(R^e)$   \\ 
+		\hline \\[-1.8ex] 
+		Mehra Prescott & $0.06$ & 0.01& \\ 
+		Full Sample& 0.68 & 0.026 \\ 
+		Post War Sample& 0.29 & 0.013 \\ 
+		\hline \\[-1.8ex] 
+	\end{tabular} 
+\end{table}
+Hence, the model implied standard deviations are both relatively low. 
 	\end{enumerate}
 \end{document}

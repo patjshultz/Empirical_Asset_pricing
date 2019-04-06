@@ -1,0 +1,233 @@
+In[1]:= Quit[];
+Parameter Specification/Summary Stats
+In[1]:= MPsubs = {μ-> 1.018, σ ->  0.036, ρ -> -0.14, β-> 0.95};
+FSsubs = {μ-> 1.019, σ ->  0.032, ρ -> 0.405, β -> 0.989};
+PWsubs = {μ-> 1.019, σ ->  0.020, ρ -> 0.320, β-> 0.988};
+In[4]:= MPsubsnoρ = {μ-> 1.018, σ ->  0.036, α -> 2, β-> 0.984};
+FSsubsnoρ= {μ-> 1.019, σ ->  0.032, α -> 2, β -> 0.989};
+PWsubsnoρ = {μ-> 1.019, σ ->  0.020, α -> 2, β-> 0.988};
+In[7]:= π11 = ϕ/.{ϕ-> (1+ρ)/2}
+λ1 = μ+σ
+π12  = 1-ϕ/.{ϕ-> (1+ρ)/2};
+λ2 = μ-σ;
+π21 = π12 ;
+π22 = π11;
+Out[7]= (1+ρ)/2
+Out[8]= μ+σ
+In[13]:= Eλ1 = π11 λ1 + π12  λ2//FullSimplify
+Out[13]= μ+ρ σ
+In[14]:= Eλ2 = π21 λ1 + π22 λ2//FullSimplify
+Out[14]= μ-ρ σ
+In[15]:= Vλ1 = π11 λ1^2 + π12  λ2^2 - Eλ1^2//FullSimplify
+Out[15]= -(-1+ρ^2) σ^2
+In[16]:= Vλ2 = π21 λ1^2 + π22 λ2^2 - Eλ2^2//FullSimplify;
+In[17]:= Vλ1 - Vλ2
+Out[17]= 0
+Risk Neutral Probabilities, Risk Premiums, Forward Rates
+In[18]:= p11 = (π11  λ1^-α)/(π11  λ1^-α + π12  λ2^-α)//FullSimplify;
+In[19]:= p12 = (π12  λ2^-α)/(π11  λ1^-α + π12  λ2^-α)//FullSimplify;
+In[20]:= p21 = (π21  λ1^-α)/(π21  λ1^-α + π22  λ2^-α)//FullSimplify;
+In[21]:= p22 = (π22  λ2^-α)/(π21  λ1^-α + π22  λ2^-α)//FullSimplify;
+In[22]:= b11 = β(π11 λ1^-α+π12 λ2^-α)/.{ϕ-> (1+ρ)/2}
+b12 = β(π21 λ1^-α+π22 λ2^-α)/.{ϕ-> (1+ρ)/2}
+Out[22]= β ((1+1/2 (-1-ρ)) (μ-σ)^-α+1/2 (1+ρ) (μ+σ)^-α)
+Out[23]= β (1/2 (1+ρ) (μ-σ)^-α+(1+1/2 (-1-ρ)) (μ+σ)^-α)
+In[24]:= b21 = b11(p11 b11 + p12 b12)//FullSimplify
+Out[24]= 1/4 β^2 (-(-1+ρ^2) (μ-σ)^(-2 α)+(1+ρ)^2 (μ+σ)^(-2 α)-2 (-1+ρ) (μ-σ)^-α (μ+σ)^-α)
+In[25]:= b22 = b12(p21 b11 + p22 b12)//FullSimplify
+Out[25]= 1/4 β^2 ((1+ρ)^2 (μ-σ)^(-2 α)-(-1+ρ^2) (μ+σ)^(-2 α)-2 (-1+ρ) (μ-σ)^-α (μ+σ)^-α)
+In[26]:= b11/.MPsubs/.α-> 2
+b12/.MPsubs/.α-> 2
+b21/.MPsubs/.α-> 2
+b22/.MPsubs/.α-> 2
+b11/.FSsubs/.α-> 2
+b12/.FSsubs/.α-> 2
+b21/.FSsubs/.α-> 2
+b22/.FSsubs/.α-> 2
+
+Out[26]= 0.929248
+Out[27]= 0.911048
+Out[28]= 0.853282
+Out[29]= 0.83888
+Out[30]= 0.93101
+Out[31]= 0.97956
+Out[32]= 0.881443
+Out[33]= 0.946606
+In[34]:= b11/.PWsubs/.α-> 2
+b12/.PWsubs/.α-> 2
+b21/.PWsubs/.α-> 2
+b22/.PWsubs/.α-> 2
+Out[34]= 0.940639
+Out[35]= 0.964561
+Out[36]= 0.892853
+Out[37]= 0.922934
+In[38]:= Eb11 = π11 b11 + π12 b12//FullSimplify;
+In[39]:= Eb12 = π21 b11 + π22 b12//FullSimplify;
+In[40]:= Ehpr1 = Eb11/b21;
+In[41]:= Ehpr2 = Eb12/b22;
+In[42]:= Ehpr1/.MPsubs/.α-> 2
+Ehpr2/.MPsubs/.α-> 2
+Ehpr1/.FSsubs/.α-> 2
+Ehpr2/.FSsubs/.α-> 2
+Ehpr1/.PWsubs/.α-> 2
+Ehpr2/.PWsubs/.α-> 2
+Out[42]= 1.07687
+Out[43]= 1.0984
+Out[44]= 1.07262
+Out[45]= 1.01955
+Out[46]= 1.06263
+Out[47]= 1.03629
+In[48]:= f1 = b11/b21//FullSimplify;
+
+In[49]:= f2 = b12/b22//FullSimplify;
+In[50]:= rp1 = 1/Sqrt[b21]-1/b11//FullSimplify;
+In[51]:= rp2 = 1/Sqrt[b22]-1/b12//FullSimplify;
+In[52]:= f1/.MPsubs/.α-> 2
+f2/.MPsubs/.α-> 2
+rp1/.MPsubs/.α-> 2
+rp2/.MPsubs/.α-> 2
+Out[52]= 1.08903
+Out[53]= 1.08603
+Out[54]= 0.00642517
+Out[55]= -0.00581911
+In[56]:= f1/.FSsubs/.α-> 2
+f2/.FSsubs/.α-> 2
+rp1/.FSsubs/.α-> 2
+rp2/.FSsubs/.α-> 2
+Out[56]= 1.05623
+Out[57]= 1.03481
+Out[58]= -0.00897189
+Out[59]= 0.00694972
+In[60]:= f1/.PWsubs/.α-> 2
+f2/.PWsubs/.α-> 2
+rp1/.PWsubs/.α-> 2
+rp2/.PWsubs/.α-> 2
+Out[60]= 1.05352
+Out[61]= 1.0451
+Out[62]= -0.00480467
+Out[63]= 0.00417263
+In[64]:= rp1MPparam = rp1/.MPsubs;
+rp1FSparam =  rp1/.FSsubs;
+rp1PWparam = rp1/.PWsubs;
+In[67]:= Plot[{rp1MPparam, rp1FSparam, rp1PWparam}, {α, 0, 50}, PlotLegends->{"Mehra Prescott", "Full Sample", "Post War Sample"}, Frame-> True, GridLines->Automatic, AxesLabel->{"α", "Risk Premium"}, PlotLabel->Style["Risk Premiums in State 1",FontSize->18]]
+Out[67]= 	Mehra Prescott
+	Full Sample
+	Post War Sample
+
+
+In[68]:= rp2MPparam = rp2/.MPsubs;
+rp2FSparam =  rp2/.FSsubs;
+rp2PWparam = rp2/.PWsubs;
+Plot[{rp2MPparam, rp2FSparam, rp2PWparam}, {α, 0, 100}, PlotLegends->{"Mehra Prescott", "Full Sample", "Post War Sample"}, Frame-> True, GridLines->Automatic, AxesLabel->{"α", "Risk Premium"}, PlotLabel->Style["Risk Premiums in State 2",FontSize->18]]
+Out[71]= 	Mehra Prescott
+	Full Sample
+	Post War Sample
+
+
+In[72]:= rprhoMP = rp1/.MPsubsnoρ;
+rprhoFS = rp1/.FSsubsnoρ;
+rprhoPW = rp1/.PWsubsnoρ;
+rprhoMP2 = rp2/.MPsubsnoρ;
+rprhoFS2 = rp2/.FSsubsnoρ;
+rprhoPW2 = rp2/.PWsubsnoρ;
+In[78]:= Plot[{rprhoMP, rprhoFS, rprhoPW}, {ρ, -1, 1}, PlotLegends->{"Mehra Prescott", "Full Sample", "Post War Sample"}, Frame-> True, GridLines->Automatic, AxesLabel->Automatic,  PlotLabel->Style["Risk Premiums in State 1",FontSize->18]]
+Out[78]= 	Mehra Prescott
+	Full Sample
+	Post War Sample
+
+
+In[79]:= Plot[{rprhoMP2, rprhoFS2, rprhoPW2}, {ρ, -1, 1}, PlotLegends->{"Mehra Prescott", "Full Sample", "Post War Sample"}, Frame-> True, GridLines->Automatic, AxesLabel->Automatic,  PlotLabel->Style["Risk Premiums in State 2",FontSize->18]]
+Out[79]= 	Mehra Prescott
+	Full Sample
+	Post War Sample
+
+
+Equity Risk Premium
+In[80]:= eq1  = β(π11 λ1^(1-α) (z1 + 1) + π12 λ2^(1-α) (z2+1));
+In[81]:= eq2 = β(π21 λ1^(1-α) (z1 + 1) + π22 λ2^(1-α) (z2+1));
+In[82]:= sol = Solve[{eq1-z1==0, eq2-z2==0}, {z1, z2}]//FullSimplify;
+In[83]:= z1 = (-β (-1+ρ) (μ-σ) (μ+σ)^α+β (μ+σ) ((1+ρ) (μ-σ)^α+2 β ρ (-μ+σ)))/(β (2 β ρ (μ-σ)-(1+ρ) (μ-σ)^α) (μ+σ)+(-β (1+ρ) (μ-σ)+2 (μ-σ)^α) (μ+σ)^α);
+In[84]:= z2 = (β (1+ρ) (μ-σ) (μ+σ)^α+β (μ+σ) (-(-1+ρ) (μ-σ)^α+2 β ρ (-μ+σ)))/(β (2 β ρ (μ-σ)-(1+ρ) (μ-σ)^α) (μ+σ)+(-β (1+ρ) (μ-σ)+2 (μ-σ)^α) (μ+σ)^α);
+In[85]:= z1/.MPsubs/.α-> 2
+z2/.MPsubs/.α-> 2
+z1/.FSsubs/.α-> 2
+z2/.FSsubs/.α-> 2
+z1/.PWsubs/.α-> 2
+z2/.PWsubs/.α-> 2
+Out[85]= 14.268
+Out[86]= 14.1436
+Out[87]= 34.1612
+Out[88]= 35.6236
+Out[89]= 32.1714
+Out[90]= 32.7627
+In[91]:= Re1 = π11 (λ1(z1 + 1))/z1 +π12 (λ2(z2 +1))/z1//FullSimplify;
+In[92]:= Re2 = π21 (λ1(z1 + 1))/z2 +π22 (λ2(z2 +1))/z2//FullSimplify;
+In[93]:= Re1/.MPsubs/.α-> 2
+Re2/.MPsubs/.α-> 2
+Re1/.FSsubs/.α-> 2
+Re2/.FSsubs/.α-> 2
+Re1/.PWsubs/.α-> 2
+Re2/.PWsubs/.α-> 2
+Out[93]= 1.07907
+Out[94]= 1.10066
+Out[95]= 1.07474
+Out[96]= 1.02145
+Out[97]= 1.06352
+Out[98]= 1.03713
+In[99]:= Rf1 = 1/b11//FullSimplify;
+Rf2 = 1/b12//FullSimplify;
+In[101]:= Rx1 = Re1 - Rf1//FullSimplify;
+In[102]:= Rx2 = Re2 - Rf1//FullSimplify;
+In[103]:= VRx1 = 
+In[103]:= Rx1/.MPsubs/.α-> 2
+Rx2/.MPsubs/.α-> 2
+Rx1/.FSsubs/.α-> 2
+Rx2/.FSsubs/.α-> 2
+Rx1/.PWsubs/.α-> 2
+Rx2/.PWsubs/.α-> 2
+Out[103]= 0.00293535
+Out[104]= 0.0245177
+Out[105]= 0.000635678
+Out[106]= -0.0526572
+Out[107]= 0.000408097
+Out[108]= -0.0259759
+In[109]:= ERxLR = 1/2 Rx1 + 1/2 Rx2//FullSimplify;
+In[110]:= VRxLR = 1/2 Rx1^2 + 1/2 Rx2^2 -( 0.5 Rx1 + 0.5 Rx2)^2;
+In[111]:= ERxLR/.MPsubs/.α-> 2
+Sqrt[VRxLR/.MPsubs/.α-> 2]
+ERxLR/.FSsubs/.α-> 2
+Sqrt[VRxLR/.FSsubs/.α-> 2]
+ERxLR/.PWsubs/.α-> 2
+Sqrt[VRxLR/.PWsubs/.α-> 2]
+Out[111]= 0.0137265
+Out[112]= 0.0107912
+Out[113]= -0.0260108
+Out[114]= 0.0266465
+Out[115]= -0.0127839
+Out[116]= 0.013192
+In[117]:= ERfLR = 1/2 (Rf1) +1/2 (Rf2);
+VRfLR = 1/2 (Rf1)^2 +1/2 (Rf2)^2 -(1/2 (Rf1) +1/2 (Rf2))^2//FullSimplify;
+In[119]:= ERfLR/.MPsubs/.α-> 2
+Sqrt[VRfLR/.MPsubs/.α-> 2]
+Out[119]= 1.08689
+Out[120]= 0.0107487
+Calculate Autocorrelations
+In[212]:= ρRx1 = (π11(Rx1 - ERxLR) + π12(Rx2 - ERxLR))/(π11 (Rx1 - ERxLR)^2 +π12 (Rx2 - ERxLR)^2 -(π11 (Rx1 - ERxLR) +π12 (Rx2 - ERxLR))^2);
+ρRx2 = (π21(Rx1 - ERxLR) + π22(Rx2 - ERxLR))/(π21 (Rx1 - ERxLR)^2 +π22 (Rx2 - ERxLR)^2 -(π21 (Rx1 - ERxLR) +π22 (Rx2 - ERxLR))^2);
+ρRx = 1/2 (ρRx1 +ρRx2); 
+
+ρRf1 = (π11(Rf1 - ERfLR) + π12(Rf2 - ERfLR))/(π11 (Rf1 - ERfLR)^2 +π12 (Rf2 - ERfLR)^2 -(π11 (Rf1 - ERfLR) +π12 (Rf2 - ERfLR))^2);
+ρRf2 = (π21(Rf1 - ERfLR) + π22(Rf2 - ERfLR))/(π21 (Rf1 - ERfLR)^2 +π12 (Rf2 - ERfLR)^2 -(π11 (Rf1 - ERfLR) +π12 (Rf2 - ERfLR))^2);
+ρRf = 1/2 (ρRf1 +ρRf2);
+
+
+In[218]:= ρRx1/.MPsubs/.α-> 2
+ρRf1/.MPsubs/.α-> 2
+ρRx2/.MPsubs/.α-> 2
+ρRf2/.MPsubs/.α-> 2
+Out[218]= 13.233
+Out[219]= 13.2853
+Out[220]= -13.233
+Out[221]= -11.6252
+In[128]:= 
+In[129]:= 
