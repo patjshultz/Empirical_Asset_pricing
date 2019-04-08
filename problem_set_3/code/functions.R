@@ -40,7 +40,7 @@ return_ols_stats <- function(y, model){
 
 
 }
-return_ols_residuals <- function(y){
+return_ols_residuals <- function(y, model){
   if(model == "CAPM"){
     x <- RX
     fit <- summary(lm(y~x))  
@@ -51,14 +51,32 @@ return_ols_residuals <- function(y){
   }
 }
 
-GRS <- function(alphas, residuals){
-  Sigma <- (t(residuals) %*% residuals) / (nobs - nfactors - 1)
-  mu_f <- mean(RX) # mean of factors
-  Fmat <- RX # matrix of factors
-  Omega <- (t(Fmat - mu_f) %*% (Fmat - mu_f)) / (nobs - 1)
+GRS <- function(alphas, residuals, factors){
+  # get number of observations and number of factors
+  factors <- as.matrix(factors)
+  nobs <- nrow(factors)
+  nfactors <- ncol(factors)
   
+  # calculate the residual vcov matrix
+  Sigma <- (t(residuals) %*% residuals) / (nobs - nfactors - 1)
+ 
+  # generate mean matrix of factors returns
+  mu_f <- colMeans(factors) # mean of factors
+  Fmat <- factors # matrix of factors
+  mu_F <- matrix(data = mu_f, nrow = nobs, ncol = nfactors, byrow = T)
+  
+  # calculate vcov of factors
+  Omega <- (t(Fmat - mu_F) %*% (Fmat - mu_F)) / (nobs - 1)
+  
+  # finally, calculate GRS test statistic
   bias_adjustment <- (nobs/N) %*% ((nobs - N - L)/(nobs - L - 1))
   sum_square_alphas <- t(alphas) %*% solve(Sigma) %*% alphas
-  GRS <- bias_adjustment %*% (sum_square_alphas/(1 + mu_f %*% solve(Omega) %*% mu_f))
+  GRS <- bias_adjustment %*% (sum_square_alphas/(1 + t(mu_f) %*% solve(Omega) %*% mu_f))
   return(GRS)
+}
+ts_regressions <- function(y){
+  # leave out intercept  
+  normal_mat <- solve(t(factors)%*%factors)
+  beta_hat <- normal_mat %*% t(factors) %*% y
+  
 }

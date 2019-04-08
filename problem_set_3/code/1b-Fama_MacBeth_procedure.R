@@ -1,0 +1,204 @@
+#===============================================================================
+# Finance 921: Assignment 3
+# Question 1 part b
+#===============================================================================
+rm(list = ls())
+library(ggplot2)
+library(reshape2)
+source("functions.R")
+
+# load data
+book_market_returns <- read.csv("../data/BEME_returns_annual.csv",
+                                stringsAsFactors = F, 
+                                na.strings = 'NA')/100
+average_beme <- read.csv("../data/average_firm_BEME.CSV", 
+                         stringsAsFactors = F, 
+                         na.strings = 'NA')[-1,]
+size_returns <- read.csv("../data/ME_returns_annual.csv", 
+                         stringsAsFactors = F, 
+                         na.strings = 'NA')/100
+average_size <- read.csv("../data/average_firm_sizes.csv",
+                         stringsAsFactors = F, 
+                         na.strings = 'NA')
+FF_factors <- read.csv("../data/FF_factors_annual.csv", stringsAsFactors = F)/100
+nobs <- nrow(book_market_returns)
+
+# subset average size to annual data
+annual_ind <- which(average_size$month==12)
+average_size <- average_size[annual_ind, -2]
+average_size <- average_size[-1, ]
+
+# take logs of data? 
+#book_market_returns <- log(1 + book_market_returns)
+average_beme <- log(average_beme)
+#size_returns <- log(1 + size_returns)
+average_size <- log(average_size)
+#FF_factors <- log(1 + FF_factors)
+
+#===============================================================================
+# Step 1: Run TS regressions
+#===============================================================================
+
+# fama french factors plus size and book to market ratio
+factors <- cbind(FF_factors$Mkt.RF, FF_factors$SMB, FF_factors$HML, 
+             average_size$d5, average_beme$d5) 
+
+#
+# time series regression for book-to-market sorted portfolios
+bm_estimates <- apply(book_market_returns[, -1], 2, ts_regressions)
+bm_tab <- rbind(colMeans(book_market_returns[, -1]), bm_estimates)
+rownames(bm_tab) <- c("E(R)", "b1", "b2", "b3", "b4", "b5")
+
+# time series regression for size sorted portfolios
+size_estimates <- apply(size_returns[, -1], 2, ts_regressions)
+size_tab <- rbind(colMeans(size_returns[, -1]), size_estimates)
+rownames(size_tab) <- c("E(R)", "b1", "b2", "b3", "b4", "b5")
+
+
+#===============================================================================
+# Step 2: Run CS regression for each observation
+#===============================================================================
+
+# create return matrices and matrix of estimated coefficients from TS regressions
+beme_return <- book_market_returns[, -1]
+size_return <- size_returns[, -1]
+N <- ncol(beme_return) # number of test portfolios
+Bhat <- t(bm_estimates)
+
+# estimate a regression at each t for book to market and size portfolios
+lambda_mat_bm <- matrix(data = NA, nrow = nobs, ncol = (ncol(factors)))
+lambda_mat_size <- lambda_mat_bm
+alpha_bm <- matrix(data = NA, nrow = nobs, ncol = ncol(size_return))
+alpha_size <- alpha_bm
+
+for (t in 1:nobs){
+    return_bm  <- t(as.matrix(beme_return[t, ]))
+    lambda_mat_bm[t, ] <- solve(t(Bhat)%*%Bhat) %*% t(Bhat) %*% return_bm
+    alpha_bm[t, ] <- return_bm  - Bhat %*% lambda_mat_bm[t, ]
+    
+    return_size <- t(as.matrix(size_return[t, ]))
+    lambda_mat_size[t, ] <- solve(t(Bhat)%*%Bhat) %*% t(Bhat) %*% return_size
+    alpha_size[t, ] <- return_size  - Bhat %*% lambda_mat_size[t, ]
+    
+}
+
+#===============================================================================
+# Step 3: Calculate sample estimates of lambda and alpha
+#===============================================================================
+
+lambda_hat_bm <- colMeans(lambda_mat_bm)
+lambda_hat_size <- colMeans(lambda_mat_size)
+
+alpha_hat_bm <- colMeans(alpha_bm)
+alpha_hat_size <- colMeans(alpha_size)
+
+#===============================================================================
+# Step 4: Calculate standard errors and significance of lambda estimates
+#===============================================================================
+
+# compute sample standard deviations of lambdas
+lambda_hat_sigma_bm <- apply(lambda_mat_bm, 2, sd)/(nobs^(1/2))
+lambda_hat_sigma_size <- apply(lambda_mat_size, 2, sd)/(nobs^(1/2))
+
+# covariance matrix of alphas
+vcov_alpha_bm <- matrix(data = 0, nrow = N, ncol = N) 
+vcov_alpha_size <- matrix(data = 0, nrow = N, ncol = N)
+
+for(t in 1:nobs){
+  # difference between the average error and time t errors
+  error_bm <- alpha_bm[t, ] - alpha_hat_bm
+  error_size <- alpha_size[t, ] - alpha_hat_size
+  
+  # vocov matrix at each t of the errors
+  vcov_alpha_bm <- vcov_alpha_bm + error_bm %*% t(error_bm)
+  vcov_alpha_size <- vcov_alpha_size + error_size %*% t(error_size)
+  
+}
+
+# compute the average of the vcov matrices
+vcov_alpha_bm/nobs^2
+vcov_alpha_size/nobs^2
+
+
+slope_coef <- rbind(lambda_hat_size, lambda_hat_size / lambda_hat_sigma_size,
+                    lambda_hat_bm, lambda_hat_bm / lambda_hat_sigma_bm)
+
+colnames(slope_coef) <- c("RX", "SMB", "HML", "ln(Size)", "ln(BE/ME)")
+rownames(slope_coef) <- c("lambda(size)", "t(lambda)", "lambda(BE/ME)", "t(lambda)")
+stargazer::stargazer(slope_coef, title = "Fama-MacBeth Slope Coefficients")
+
+
+#===============================================================================
+# Redo analysis, but leave out book to market ratios and size as factors 
+#===============================================================================
+
+# fama french factors plus size and book to market ratio
+factors <- cbind(FF_factors$Mkt.RF, FF_factors$SMB, FF_factors$HML)
+
+# time series regression for book-to-market sorted portfolios
+bm_estimates <- apply(book_market_returns[, -1], 2, ts_regressions)
+bm_tab <- rbind(colMeans(book_market_returns[, -1]), bm_estimates)
+rownames(bm_tab) <- c("E(R)", "b1", "b2", "b3")
+
+# time series regression for size sorted portfolios
+size_estimates <- apply(size_returns[, -1], 2, ts_regressions)
+size_tab <- rbind(colMeans(size_returns[, -1]), size_estimates)
+rownames(size_tab) <- c("E(R)", "b1", "b2", "b3")
+
+#===============================================================================
+# Step 2: Run CS regression for each observation
+#===============================================================================
+
+# create return matrices and matrix of estimated coefficients from TS regressions
+beme_return <- book_market_returns[, -1]
+size_return <- size_returns[, -1]
+N <- ncol(beme_return) # number of test portfolios
+Bhat <- t(bm_estimates)
+
+# estimate a regression at each t for book to market and size portfolios
+lambda_mat_bm <- matrix(data = NA, nrow = nobs, ncol = (ncol(factors)))
+lambda_mat_size <- lambda_mat_bm
+alpha_bm <- matrix(data = NA, nrow = nobs, ncol = ncol(size_return))
+alpha_size <- alpha_bm
+
+for (t in 1:nobs){
+  return_bm  <- t(as.matrix(beme_return[t, ]))
+  lambda_mat_bm[t, ] <- solve(t(Bhat)%*%Bhat) %*% t(Bhat) %*% return_bm
+  alpha_bm[t, ] <- return_bm  - Bhat %*% lambda_mat_bm[t, ]
+  
+  return_size <- t(as.matrix(size_return[t, ]))
+  lambda_mat_size[t, ] <- solve(t(Bhat)%*%Bhat) %*% t(Bhat) %*% return_size
+  alpha_size[t, ] <- return_size  - Bhat %*% lambda_mat_size[t, ]
+  
+}
+
+#===============================================================================
+# Step 3: Calculate sample estimates of lambda and alpha
+#===============================================================================
+
+lambda_hat_bm <- colMeans(lambda_mat_bm)
+lambda_hat_size <- colMeans(lambda_mat_size)
+
+alpha_hat_bm <- colMeans(alpha_bm)
+alpha_hat_size <- colMeans(alpha_size)
+
+#===============================================================================
+# Step 4: Calculate standard errors and significance of lambda estimates
+#===============================================================================
+
+# compute sample standard deviations of lambdas
+lambda_hat_sigma_bm <- apply(lambda_mat_bm, 2, sd)/(nobs^(1/2))
+lambda_hat_sigma_size <- apply(lambda_mat_size, 2, sd)/(nobs^(1/2))
+
+# covariance matrix of alphas
+vcov_alpha_bm <- matrix(data = 0, nrow = N, ncol = N) 
+vcov_alpha_size <- matrix(data = 0, nrow = N, ncol = N)
+
+slope_coef <- rbind(lambda_hat_size, lambda_hat_size / lambda_hat_sigma_size,
+                    lambda_hat_bm, lambda_hat_bm / lambda_hat_sigma_bm)
+
+colnames(slope_coef) <- c("RX", "SMB", "HML")
+rownames(slope_coef) <- c("lambda(size)", "t(lambda)", "lambda(BE/ME)", "t(lambda)")
+stargazer::stargazer(slope_coef, title = "Fama-MacBeth Slope Coefficients")
+
+
