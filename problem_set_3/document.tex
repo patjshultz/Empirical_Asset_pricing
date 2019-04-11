@@ -127,12 +127,12 @@ We can repeat this analysis for the past 10 years and past 25 years. The  GRS te
 \end{table} 
 Hence, we strongly reject the model in all samples. \\
 
-\paragraph{b)} Run Fama-MacBeth cross-sectional regressions of excess returns on the Fama-French factors as well as the two characteristics: Size and average Book/Market. Do the latter  have significant slope coefficients? DO the results change if you omit the SMB and HML factors from the regression. 
+\paragraph{b)} Run Fama-MacBeth cross-sectional regressions of excess returns on the Fama-French factors as well as the two characteristics: Size and average Book/Market. Do the latter  have significant slope coefficients? Do the results change if you omit the SMB and HML factors from the regression. 
 
 \noindent \textbf{Solution:} We use the following procedure 
 \begin{enumerate}
-	\item Run the time series regressions: $R^{ei}_{t} = a_{i} + \beta'_{i}f_{t} + \epsilon_{it}$. In this case $f = \left[R^{e}, \text{SMB}, \text{HML}, \text{Size}, \text{BE/ME}\right]$. 
-	\item Then we run the cross-section as a separate regression for each $t$: $R^{ei}_t =  \beta'	_{i}\lambda_{t} + \alpha_{it}$, where $\beta$ from step 1 is the right hand side variable and $\lambda$ (the price of risk) is the coefficient to be estimated. We get a different price of risk and error term for each $t$. 
+	\item Run the time series regressions: $R^{ei}_{t} = a_{i} + \beta'_{i}f_{t} + \epsilon_{it}$. In this case $f = \left[R^{m}-R^{f}, \text{SMB}, \text{HML}\right]$. 
+	\item Then we run the cross-section as a separate regression for each $t$: $R^{ei}_t =  \beta'_{i}\lambda_{t} + \alpha_{it}$, where $\beta$ from step 1 is the right hand side variable and $\lambda$ (the price of risk) is the coefficient to be estimated. We get a different price of risk and error term for each $t$. Where we can include size and book/market as additional characteristics. 
 	\item Estimate the price of risk as $\hat{\lambda}_t = E_T(\hat{\lambda}_{t})$ and $\hat{\alpha} = E_T(\hat{\alpha}_{T})$
 	\item Estimate the standard errors as $\sigma(\hat{\lambda}) = \frac{\sigma(\hat{\lambda}_{t})}{\sqrt{T}}$.
 \end{enumerate}
@@ -173,30 +173,75 @@ Results generally do not change when we omit the size and book to market factors
 
 \noindent\textbf{Solution:} The CCAPM states
 \begin{equation*}
-	E\left[R^{ei}\right] = \gamma cov(\Delta c_{t+1}, R^{ei}_{t+1}) = \dfrac{cov(\Delta c_{t+1}, R^{ei}_{t+1})}{var(\Delta c_{t+1})}\left[\gamma var(\Delta)c_{t+1}\right]= \beta_{i, M}\lambda_{\Delta c}
+	E\left[R^{ei}\right] = \gamma cov(\Delta c_{t+1}, R^{ei}_{t+1}) = \dfrac{cov(\Delta c_{t+1}, R^{ei}_{t+1})}{var(\Delta c_{t+1})}\left[\gamma var(\Delta c_{t+1})\right]= \beta_{i, M}\lambda_{\Delta c}
 \end{equation*}
 It states that the expected return of asset $i$ is proportional to beta times the market price of consumption risk. This representation implies we can run the following test of the model 
 \begin{equation*}
 	\begin{split}
-	R^{ei}_{t+1} &= a_{i} + b_{i, \Delta c}\Delta c_{t+1} + \epsilon^{i}_{t+1} \quad t = 1,..., T\\
-	E(R^{ei}) &= b_{i, \Delta c} \lambda_{\Delta c} + \alpha_{i}
+	R^{ei}_{t+1} &= a_{i} + \beta_{i, \Delta c}\Delta c_{t+1} + \epsilon^{i}_{t+1} \quad t = 1,..., T\\
+	E(R^{ei}) &= \beta_{i, \Delta c} \lambda_{\Delta c} + \alpha_{i}
 	\end{split}
 \end{equation*}
-In the first stage the point is to estimate the tendency for the asset to fall when consumption falls (i.e. estimate $b$). The second stage is the test of the statement of the model: $\alpha$'s should be zero and we should see expected return to be high where $\beta$'s are high. \\
+In the first stage the point is to estimate the tendency for the asset to fall when consumption falls (i.e. estimate $\beta$). The second stage is the test of the statement of the model: $\alpha$'s should be zero and we should see expected return to be high where $\beta$'s are high. We get the following results 
+\begin{table}[!htbp] \centering 
+	\caption{} 
+	\label{} 
+	\begin{tabular}{@{\extracolsep{5pt}} c|cccccccccc} 
+		\\[-1.8ex]\hline 
+		\hline \\[-1.8ex] 
+		& d1 & d2 & d3 & d4 & d5 & d6 & d7 & d8 & d9 & d10 \\ 
+		\hline \\[-1.8ex] 
+		E(R) size & $1.033$ & $1.003$ & $1.073$ & $1.027$ & $1.038$ & $1.018$ & $1.021$ & $1.005$ & $0.965$ & $0.870$ \\ 
+		alpha size & $0.179$ & $0.200$ & $0.315$ & $0.295$ & $0.295$ & $0.417$ & $0.366$ & $0.418$ & $0.415$ & $0.297$ \\ 
+		beta size & $1.220$ & $1.147$ & $1.082$ & $1.044$ & $1.062$ & $0.858$ & $0.936$ & $0.838$ & $0.785$ & $0.819$ \\ \hline
+		E(R) BE/ME & $0.844$ & $0.916$ & $0.926$ & $0.899$ & $0.982$ & $1.033$ & $0.920$ & $1.109$ & $1.168$ & $1.165$ \\ 
+		alpha BE/ME & $0.213$ & $0.286$ & $0.396$ & $0.417$ & $0.500$ & $0.402$ & $0.287$ & $0.469$ & $0.538$ & $0.263$ \\ 
+		beta BE/ME & $0.901$ & $0.900$ & $0.758$ & $0.689$ & $0.689$ & $0.902$ & $0.905$ & $0.914$ & $0.900$ & $1.289$ \\ 
+		\hline \\[-1.8ex] 
+	\end{tabular} 
+\end{table} \\
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.9\linewidth]{FM_ccapm.png}
+	\caption{Fama MacBeth tests of the CCAPM}
+	\label{fig:FMB_CCAPM}
+\end{figure}\\
 
-Using GMM, we use the following procedure to compute the SDF loadings
-\begin{equation*}
-	\begin{split}
-	0 &= E(MR^e)\\
-	M &= 1-b'(f-Ef) = 1-b'\tilde{f} \\
-	g_T &= E_T\left[R^e(1-b\tilde{f})\right]\\
-	d &= \frac{\partial g_t}{\partial b}-E(R^e\tilde{f}')=-cov(R^e, f') = -c\\
-	\min& g_t'Wg_t \implies \text{FOC:  } d'Wg_t = 0\\
-	0&=d'W E_T(R^e(1-\tilde{f}'b))\implies 0=-c'W E_T(R^e(1-\tilde{f}'b))\\
-	& c'WE_T(R^e) = c'Wcb\\
-	b &= \left[c'Wc\right]^{-1}c'WE_T(R^e)\\
-	\end{split}
-\end{equation*}
-In the case of CCAPM the factor, $f$,  is consumption growth, $\Delta c_{t+1}$, so we see that GMM is just a cross sectional regression of expected returns on covariances. That is, GMM is equivalent to considering the cross-sectional model $E(R^{e}) = cov(R^{e}, \Delta c_{t+1}) b$, where we can just run a regression to estimate $b$. 
+ 
+An alternative way to deal with the generated regressor problem is to use GMM to estimate $a, \beta$, and $\lambda$. The CCAPM has a single factor, namely $f = \Delta c_{t+1}$. Then the moment conditions are
+$$
+	g_{T} = 
+	\begin{bmatrix}
+	E(R_{t}^{e} - a - \beta f_{t})\\
+	E\left[(R^{e}_{t}-a-\beta f_{t})f_{t}\right]\\
+	E(R^{e} - \beta \lambda)
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	0\\ 0 \\ 0
+	\end{bmatrix}
+$$
+The top two moment conditions identify $a$ and $\beta$ as the time-series OLS estimates and the bottom moment condition is implied by our asset pricing model. The parameter vector is $\theta' = \left[a'\quad \beta'\quad \lambda \right]$ Define the matrix $d$ as the sensitivity of the moment conditions to the parameters. 
+$$
+d = \dfrac{\partial g_{T}}{\partial b'}
+$$
+
+%Using GMM, we use the following procedure to compute the SDF loadings
+%\begin{equation*}
+%	\begin{split}
+%	0 &= E(MR^e)\\
+%	M &= 1-b'(f-Ef) = 1-b'\tilde{f} \\
+%	g_T &= E_T\left[R^e(1-b\tilde{f})\right]\\
+%	d &= \frac{\partial g_t}{\partial b}-E(R^e\tilde{f}')=-cov(R^e, f') = -c\\
+%	\min& g_t'Wg_t \implies \text{FOC:  } d'Wg_t = 0\\
+%	0&=d'W E_T(R^e(1-\tilde{f}'b))\implies 0=-c'W E_T(R^e(1-\tilde{f}'b))\\
+%	& c'WE_T(R^e) = c'Wcb\\
+%	b &= \left[c'Wc\right]^{-1}c'WE_T(R^e)\\
+%	\end{split}
+%\end{equation*}
+%In the case of CCAPM the factor, $f$,  is consumption growth, $\Delta c_{t+1}$, so we see that GMM is just a cross sectional regression of expected returns on covariances. That is, GMM is equivalent to considering the cross-sectional model $E(R^{e}) = cov(R^{e}, \Delta c_{t+1}) b$, where we can just run a GLS regression to estimate $b$. We can rewrite this in terms of regression coefficients to make our estimates comparable
+%\begin{equation*}
+%	E(R^{e}) = \dfrac{cov(R^{e}, \Delta c_{t+1})}{var(\Delta c_{t+1})}(var(\Delta c_{t+1})b) = b_{i, \Delta c}\lambda_{\Delta c}
+%\end{equation*}
 
 \end{document}

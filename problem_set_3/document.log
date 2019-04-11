@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.9.4)  8 APR 2019 14:45
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.9.4)  10 APR 2019 21:17
 entering extended mode
 **./document.tex
 (document.tex
@@ -273,6 +273,9 @@ LaTeX Warning: Label `' multiply defined.
 
 LaTeX Warning: Label `' multiply defined.
 
+
+LaTeX Warning: Label `' multiply defined.
+
 )
 \openout1 = `document.aux'.
 
@@ -433,38 +436,39 @@ Underfull \hbox (badness 10000) in paragraph at lines 110--129
 
  []
 
-
-Overfull \hbox (16.16374pt too wide) in paragraph at lines 134--135
-[]\OT1/cmr/m/n/10.95 (-20) Run the time se-ries re-gres-sions: $\OML/cmm/m/it/1
-0.95 R[] \OT1/cmr/m/n/10.95 (-20) = \OML/cmm/m/it/10.95 a[] \OT1/cmr/m/n/10.95 
-(-20) + \OML/cmm/m/it/10.95 []f[] \OT1/cmr/m/n/10.95 (-20) + \OML/cmm/m/it/10.
-95 []$\OT1/cmr/m/n/10.95 (-20) . In this case $\OML/cmm/m/it/10.95 f \OT1/cmr/
-m/n/10.95 (-20) = []$. 
- []
-
 [2]
 Underfull \hbox (badness 10000) in paragraph at lines 172--173
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 184--186
+Overfull \hbox (21.36707pt too wide) in paragraph at lines 189--202
+ [][] 
+ []
+
+<FM_ccapm.png, id=17, 1057.70157pt x 569.87906pt>
+File: FM_ccapm.png Graphic file (type png)
+ <use FM_ccapm.png>
+Package pdftex.def Info: FM_ccapm.png used on input line 205.
+(pdftex.def)             Requested size: 424.82523pt x 228.8867pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 184--209
 
  []
 
-[3] [4] (document.aux)
+[3] [4 <./FM_ccapm.png>] (document.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 7062 strings out of 493323
- 108104 string characters out of 3139067
- 220297 words of memory out of 3000000
- 10478 multiletter control sequences out of 15000+200000
+ 7071 strings out of 493323
+ 108224 string characters out of 3139067
+ 223305 words of memory out of 3000000
+ 10485 multiletter control sequences out of 15000+200000
  9813 words of font info for 47 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,17n,39p,654b,282s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 39i,15n,39p,654b,282s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Fi
 les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKT
@@ -474,9 +478,9 @@ onts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
 amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
 cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.
 pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on document.pdf (4 pages, 127394 bytes).
+Output written on document.pdf (4 pages, 143706 bytes).
 PDF statistics:
- 55 PDF objects out of 1000 (max. 8388607)
+ 57 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 4609 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 4614 words of extra memory for PDF output out of 10000 (max. 10000000)
 

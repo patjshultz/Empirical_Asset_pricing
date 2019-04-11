@@ -74,9 +74,43 @@ GRS <- function(alphas, residuals, factors){
   GRS <- bias_adjustment %*% (sum_square_alphas/(1 + t(mu_f) %*% solve(Omega) %*% mu_f))
   return(GRS)
 }
+
 ts_regressions <- function(y){
   # leave out intercept  
   normal_mat <- solve(t(factors)%*%factors)
   beta_hat <- normal_mat %*% t(factors) %*% y
   
+}
+
+
+CCAPM_GMM <- function(theta, X, cgrowth = cons_chg, W){
+  
+  # parameter which we want to estimate
+  a <- theta[1]
+  beta <- theta[2]
+  lambda <- theta[3]
+  
+  # the data to be used in calculate the g function
+  returns <- X
+  cgrowth <- cons_chg
+  nobs <- length(cgrowth)
+  
+  # the element of the g function implied by each moment condition
+  moment1 <- sum(returns - a - beta * cgrowth)/nobs
+  moment2 <- sum((returns - a - beta * cgrowth) * cgrowth)/nobs
+  moment3 <- sum(returns - beta * lambda)/nobs
+  
+  # quadratic form to be minimized
+  gT <- c(moment1, moment2, moment3)
+  quad_loss <- t(gT) %*% W %*% gT
+  
+  return(quad_loss)
+}
+
+
+GMM_esimtation <- function(X){
+  # returns alpha, beta, then lambda
+  optimization <- optim(par = c(1, 1, 1), fn = CCAPM_GMM, X = X, W = diag(3))
+  GMM_pars <- optimization$par
+  return(GMM_pars)
 }

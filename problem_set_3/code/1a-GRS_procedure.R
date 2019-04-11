@@ -50,6 +50,24 @@ all_estimates <- all_estimates[, c(-2, -4, -7, -9)]
 colnames(all_estimates) <- c("alpha", "beta", "E(R)", "alpha", "beta", "E(R)")
 stargazer::stargazer(all_estimates, title = "CAPM Test for Size and Book-to-Market Portfolios")
 
+# plot betas vs expected returns with market price of risk line
+par(mar = c(5, 5.1, 4, 1))
+par(ps = 20)
+par(mfrow = c(1, 2))
+plot(all_estimates[, 2], all_estimates[, 3], 
+     ylim = c(0, max(all_estimates[, 3])), xlim = c(0, max(all_estimates[, 2])), 
+     xlab = expression(beta), ylab = "Mean monthly return % (Size Portfolios)" ,
+     main = "CAPM (Size Portfolios)")
+abline(lm(all_estimates[, 3]~all_estimates[, 2] + 0))
+
+
+plot(all_estimates[, 6], all_estimates[, 5], 
+     ylim = c(0, max(all_estimates[, 6])), xlim = c(0, max(all_estimates[, 5])),
+     xlab = expression(beta), ylab = "Mean quarterly return % (BE/ME Portfolios)",
+     main = "CAPM (BE/ME Portfolios)")
+abline(lm(all_estimates[, 6]~all_estimates[, 5] + 0))
+
+
 # calculate GRS test statistic and critical value for F-distribution
 alphas_bm <- bm_estimates[1, ] # t because it needs to be a column vector
 residuals_bm <- apply(book_market, 2, return_ols_residuals, model = "CAPM")
@@ -72,17 +90,27 @@ N <- 10 # still have the same number of test portfolios
 
 # estimation of FFS model for size and B/M portoflios
 bm_estimates <- apply(book_market, 2, return_ols_stats, model = "FF3")
-rownames(bm_estimates) <- c("a", "t(a)", "b", "t(b)", "s", "t(s)", "h", "t(h)")
 bm_estimates <- rbind(bm_estimates[c(-2, -(4:8)), ], colMeans(book_market))
 rownames(bm_estimates) <- c("a", "b", "E(R)")
 
 size_estimates <- apply(size, 2, return_ols_stats, model = "FF3")
-rownames(size_estimates) <- c("a", "t(a)", "b", "t(b)", "s", "t(s)", "h", "t(h)")
 size_estimates <- rbind(size_estimates[c(-2, -(4:8)), ], colMeans(size))
 rownames(size_estimates) <- c("a", "b", "E(R)")
 
 stargazer::stargazer(cbind(t(bm_estimates), t(size_estimates)))
 
+# plot betas vs expected returns with market price of risk line
+plot(size_estimates[2, ], size_estimates[3, ], 
+     ylim = c(0, max(size_estimates[3, ])), xlim = c(0, max(size_estimates[2, ])),
+     xlab = expression(beta), ylab = "Mean quarterly return % (Size Portfolios)",
+     main = "FF3  (Size Portfolios)")
+abline(lm(size_estimates[3, ]~size_estimates[2, ] + 0))
+
+plot(bm_estimates[2, ], bm_estimates[3, ], 
+     ylim = c(0, max(bm_estimates[3, ])), xlim = c(0, max(bm_estimates[2, ])),
+     xlab = expression(beta), ylab = "Mean quarterly return % (Size Portfolios)",
+     main = "FF3 (BE/ME Portfolios)")
+abline(lm(bm_estimates[3, ]~bm_estimates[2, ] + 0))
 
 # calculate GRS test statistic and critical value for F-distribution
 alphas_bm <- bm_estimates[1, ] # t because it needs to be a column vector
@@ -119,6 +147,22 @@ rownames(bm_estimates) <- c("alpha", "t(alpha)", "beta", "t(beta)")
 size_estimates <- apply(size[index, ], 2, return_ols_stats, model = "CAPM")
 rownames(size_estimates) <- c("alpha", "t(alpha)", "beta", "t(beta)")
 
+
+# plot betas vs expected returns with market price of risk line
+plot(all_estimates[, 2], all_estimates[, 3], 
+     ylim = c(0, max(all_estimates[, 3])), xlim = c(0, max(all_estimates[, 2])), 
+     xlab = expression(beta), ylab = "Mean monthly return % (Size Portfolios)" ,
+     main = "CAPM (Size Portfolios)")
+abline(lm(all_estimates[, 3]~all_estimates[, 2] + 0))
+
+
+plot(all_estimates[, 6], all_estimates[, 5], 
+     ylim = c(0, max(all_estimates[, 6])), xlim = c(0, max(all_estimates[, 5])),
+     xlab = expression(beta), ylab = "Mean quarterly return % (BE/ME Portfolios)",
+     main = "CAPM (BE/ME Portfolios)")
+abline(lm(all_estimates[, 6]~all_estimates[, 5] + 0))
+
+
 # calculate GRS test statistic and critical value for F-distribution
 alphas_bm <- bm_estimates[1, ] # t because it needs to be a column vector
 residuals_bm <- apply(book_market[index, ], 2, return_ols_residuals, model = "CAPM")
@@ -139,13 +183,29 @@ N <- 10 # still have the same number of test portfolios
 
 # estimation of FFS model for size and B/M portoflios
 bm_estimates <- apply(book_market[index, ], 2, return_ols_stats, model = "FF3")
-rownames(bm_estimates) <- c("a", "t(a)", "b", "t(b)", "s", "t(s)", "h", "t(h)")
+bm_estimates <- rbind(bm_estimates[c(-2, -(4:8)), ], colMeans(book_market))
+rownames(bm_estimates) <- c("a", "b", "E(R)")
 
 size_estimates <- apply(size[index, ], 2, return_ols_stats, model = "FF3")
-rownames(size_estimates) <- c("a", "t(a)", "b", "t(b)", "s", "t(s)", "h", "t(h)")
+size_estimates <- rbind(size_estimates[c(-2, -(4:8)), ], colMeans(size))
+rownames(size_estimates) <- c("a", "b", "E(R)")
+
 
 stargazer::stargazer(bm_estimates, title = "Fama-French Three Factor Model Test for B/M portfolios")
 stargazer::stargazer(size_estimates,  title = "Fama-French Three Factor Model Test for size portfolios")
+
+# plot betas vs expected returns with market price of risk line
+plot(size_estimates[2, ], size_estimates[3, ], 
+     ylim = c(0, max(size_estimates[3, ])), xlim = c(0, max(size_estimates[2, ])),
+     xlab = expression(beta), ylab = "Mean quarterly return % (Size Portfolios)",
+     main = "FF3  (Size Portfolios)")
+abline(lm(size_estimates[3, ]~size_estimates[2, ] + 0))
+
+plot(bm_estimates[2, ], bm_estimates[3, ], 
+     ylim = c(0, max(bm_estimates[3, ])), xlim = c(0, max(bm_estimates[2, ])),
+     xlab = expression(beta), ylab = "Mean quarterly return % (Size Portfolios)",
+     main = "FF3 (BE/ME Portfolios)")
+abline(lm(bm_estimates[3, ]~bm_estimates[2, ] + 0))
 
 # calculate GRS test statistic and critical value for F-distribution
 alphas_bm <- bm_estimates[1, ] # t because it needs to be a column vector
@@ -164,7 +224,7 @@ summary_tab[4, 1:3] <- c(FF_BEME_GRS, FF_size_GRS, critical_value)
 # Repeat analysis for the past 25 years
 #===============================================================================
 
-index <- nobs:(nobs-25*12)
+index <- (nobs-25*12):nobs
 # subset factors 
 RX <- FF_factors$RE[index]# excess returns of the market
 SMB <- FF_factors$SMB[index]; HML <- FF_factors$HML[index] # additional FF factors
@@ -180,6 +240,20 @@ rownames(bm_estimates) <- c("alpha", "t(alpha)", "beta", "t(beta)")
 
 size_estimates <- apply(size[index, ], 2, return_ols_stats, model = "CAPM")
 rownames(size_estimates) <- c("alpha", "t(alpha)", "beta", "t(beta)")
+
+# plot betas vs expected returns with market price of risk line
+plot(all_estimates[, 2], all_estimates[, 3], 
+     ylim = c(0, max(all_estimates[, 3])), xlim = c(0, max(all_estimates[, 2])), 
+     xlab = expression(beta), ylab = "Mean monthly return % (Size Portfolios)" ,
+     main = "CAPM (Size Portfolios)")
+abline(lm(all_estimates[, 3]~all_estimates[, 2] + 0))
+
+
+plot(all_estimates[, 6], all_estimates[, 5], 
+     ylim = c(0, max(all_estimates[, 6])), xlim = c(0, max(all_estimates[, 5])),
+     xlab = expression(beta), ylab = "Mean quarterly return % (BE/ME Portfolios)",
+     main = "CAPM (BE/ME Portfolios)")
+abline(lm(all_estimates[, 6]~all_estimates[, 5] + 0))
 
 # calculate GRS test statistic and critical value for F-distribution
 alphas_bm <- bm_estimates[1, ] # t because it needs to be a column vector
@@ -201,13 +275,28 @@ N <- 10 # still have the same number of test portfolios
 
 # estimation of FFS model for size and B/M portoflios
 bm_estimates <- apply(book_market[index, ], 2, return_ols_stats, model = "FF3")
-rownames(bm_estimates) <- c("a", "t(a)", "b", "t(b)", "s", "t(s)", "h", "t(h)")
+bm_estimates <- rbind(bm_estimates[c(-2, -(4:8)), ], colMeans(book_market))
+rownames(bm_estimates) <- c("a", "b", "E(R)")
 
 size_estimates <- apply(size[index, ], 2, return_ols_stats, model = "FF3")
-rownames(size_estimates) <- c("a", "t(a)", "b", "t(b)", "s", "t(s)", "h", "t(h)")
+size_estimates <- rbind(size_estimates[c(-2, -(4:8)), ], colMeans(size))
+rownames(size_estimates) <- c("a", "b", "E(R)")
 
 stargazer::stargazer(bm_estimates, title = "Fama-French Three Factor Model Test for B/M portfolios")
 stargazer::stargazer(size_estimates,  title = "Fama-French Three Factor Model Test for size portfolios")
+
+# plot betas vs expected returns with market price of risk line
+plot(size_estimates[2, ], size_estimates[3, ], 
+     ylim = c(0, max(size_estimates[3, ])), xlim = c(0, max(size_estimates[2, ])),
+     xlab = expression(beta), ylab = "Mean quarterly return % (Size Portfolios)",
+     main = "FF3  (Size Portfolios)")
+abline(lm(size_estimates[3, ]~size_estimates[2, ] + 0))
+
+plot(bm_estimates[2, ], bm_estimates[3, ], 
+     ylim = c(0, max(bm_estimates[3, ])), xlim = c(0, max(bm_estimates[2, ])),
+     xlab = expression(beta), ylab = "Mean quarterly return % (Size Portfolios)",
+     main = "FF3 (BE/ME Portfolios)")
+abline(lm(bm_estimates[3, ]~bm_estimates[2, ] + 0))
 
 # calculate GRS test statistic and critical value for F-distribution
 alphas_bm <- bm_estimates[1, ] # t because it needs to be a column vector
